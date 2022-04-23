@@ -1,6 +1,6 @@
 // chat.js
 // let toast = require('../../utils/toast.js');
-let chatInput = require('./chat-input/chat-input');
+// let chatInput = require('./chat-input/chat-input');
 var utils = require("../../utils/util")
 Page({
 
@@ -68,23 +68,23 @@ Page({
   initData: function () {
     let that = this;
     let systemInfo = wx.getSystemInfoSync();
-    chatInput.init(this, {
-      systemInfo: systemInfo,
-      minVoiceTime: 1,
-      maxVoiceTime: 60,
-      startTimeDown: 56,
-      format: 'mp3', //aac/mp3
-      sendButtonBgColor: 'mediumseagreen',
-      sendButtonTextColor: 'white',
-      extraArr: [{
-        picName: 'choose_picture',
-        description: '照片'
-      }, {
-        picName: 'take_photos',
-        description: '拍摄'
-      }],
-      // tabbarHeigth: 48
-    });
+    // chatInput.init(this, {
+    //   systemInfo: systemInfo,
+    //   minVoiceTime: 1,
+    //   maxVoiceTime: 60,
+    //   startTimeDown: 56,
+    //   format: 'mp3', //aac/mp3
+    //   sendButtonBgColor: 'mediumseagreen',
+    //   sendButtonTextColor: 'white',
+    //   extraArr: [{
+    //     picName: 'choose_picture',
+    //     description: '照片'
+    //   }, {
+    //     picName: 'take_photos',
+    //     description: '拍摄'
+    //   }],
+    //   // tabbarHeigth: 48
+    // });
 
     that.setData({
       pageHeight: systemInfo.windowHeight,
@@ -99,112 +99,112 @@ Page({
   },
   textButton: function () {
     var that = this;
-    chatInput.setTextMessageListener(function (e) {
-      let content = e.detail.value;
-      console.log(content);
-      var list = that.data.wxchatLists;
-      var temp = {
-        userImgSrc: '../../image/chat/extra/close_chat.png',
-        textMessage: content,
-        dataTime: utils.formatTime(new Date()),
-        msg_type: 'text',
-        type: 1
-      };
-      list.push(temp);
-      that.setData({
-        wxchatLists: list,
-      })
-    });
+    // chatInput.setTextMessageListener(function (e) {
+    //   let content = e.detail.value;
+    //   console.log(content);
+    //   var list = that.data.wxchatLists;
+    //   var temp = {
+    //     userImgSrc: '../../image/chat/extra/close_chat.png',
+    //     textMessage: content,
+    //     dataTime: utils.formatTime(new Date()),
+    //     msg_type: 'text',
+    //     type: 1
+    //   };
+    //   list.push(temp);
+    //   that.setData({
+    //     wxchatLists: list,
+    //   })
+    // });
 
   },
   voiceButton: function () {
     var that = this;
-    chatInput.recordVoiceListener(function (res, duration) {
-      let tempFilePath = res.tempFilePath;
-      let vDuration = duration;
-      console.log(tempFilePath);
-      console.log(vDuration + "这是voice的时长");
+    // chatInput.recordVoiceListener(function (res, duration) {
+    //   let tempFilePath = res.tempFilePath;
+    //   let vDuration = duration;
+    //   console.log(tempFilePath);
+    //   console.log(vDuration + "这是voice的时长");
 
-      var list = that.data.wxchatLists;
-      var temp = {
-        userImgSrc: '../../image/chat/extra/close_chat.png',
-        voiceSrc: tempFilePath,
-        voiceTime: vDuration,
-        dataTime: utils.formatTime(new Date()),
-        msg_type: 'voice',
-        type: 1
-      };
-      list.push(temp);
-      that.setData({
-        wxchatLists: list,
-      })
-    });
-    chatInput.setVoiceRecordStatusListener(function (status) {
-      switch (status) {
-        case chatInput.VRStatus.START: //开始录音
+    //   var list = that.data.wxchatLists;
+    //   var temp = {
+    //     userImgSrc: '../../image/chat/extra/close_chat.png',
+    //     voiceSrc: tempFilePath,
+    //     voiceTime: vDuration,
+    //     dataTime: utils.formatTime(new Date()),
+    //     msg_type: 'voice',
+    //     type: 1
+    //   };
+    //   list.push(temp);
+    //   that.setData({
+    //     wxchatLists: list,
+    //   })
+    // });
+    // chatInput.setVoiceRecordStatusListener(function (status) {
+    //   switch (status) {
+    //     case chatInput.VRStatus.START: //开始录音
 
-          break;
-        case chatInput.VRStatus.SUCCESS: //录音成功
+    //       break;
+    //     case chatInput.VRStatus.SUCCESS: //录音成功
 
-          break;
-        case chatInput.VRStatus.CANCEL: //取消录音
+    //       break;
+    //     case chatInput.VRStatus.CANCEL: //取消录音
 
-          break;
-        case chatInput.VRStatus.SHORT: //录音时长太短
+    //       break;
+    //     case chatInput.VRStatus.SHORT: //录音时长太短
 
-          break;
-        case chatInput.VRStatus.UNAUTH: //未授权录音功能
+    //       break;
+    //     case chatInput.VRStatus.UNAUTH: //未授权录音功能
 
-          break;
-        case chatInput.VRStatus.FAIL: //录音失败(已经授权了)
+    //       break;
+    //     case chatInput.VRStatus.FAIL: //录音失败(已经授权了)
 
-          break;
-      }
-    })
+    //       break;
+    //   }
+    // })
   },
   extraButton: function () {
     let that = this;
-    chatInput.clickExtraListener(function (e) {
-      console.log(e);
-      let itemIndex = parseInt(e.currentTarget.dataset.index);
-      if (itemIndex === 2) {
-        that.myFun();
-        return;
-      }
-      wx.chooseImage({
-        count: 1, // 默认9
-        sizeType: ['compressed'],
-        sourceType: itemIndex === 0 ? ['album'] : ['camera'],
-        success: function (res) {
-          let tempFilePath = res.tempFilePaths[0];
-          console.log(tempFilePath);
+    // chatInput.clickExtraListener(function (e) {
+    //   console.log(e);
+    //   let itemIndex = parseInt(e.currentTarget.dataset.index);
+    //   if (itemIndex === 2) {
+    //     that.myFun();
+    //     return;
+    //   }
+    //   wx.chooseImage({
+    //     count: 1, // 默认9
+    //     sizeType: ['compressed'],
+    //     sourceType: itemIndex === 0 ? ['album'] : ['camera'],
+    //     success: function (res) {
+    //       let tempFilePath = res.tempFilePaths[0];
+    //       console.log(tempFilePath);
 
-          var list = that.data.wxchatLists;
-          var temp = {
-            dataTime: utils.formatTime(new Date()),
-            userImgSrc: '../../image/chat/extra/close_chat.png',
-            sendImgSrc: tempFilePath,
-            msg_type: 'img',
-            type: 1
-          };
-          list.push(temp);
-          that.setData({
-            wxchatLists: list,
-          })
+    //       var list = that.data.wxchatLists;
+    //       var temp = {
+    //         dataTime: utils.formatTime(new Date()),
+    //         userImgSrc: '../../image/chat/extra/close_chat.png',
+    //         sendImgSrc: tempFilePath,
+    //         msg_type: 'img',
+    //         type: 1
+    //       };
+    //       list.push(temp);
+    //       that.setData({
+    //         wxchatLists: list,
+    //       })
 
 
-        }
-      });
+    //     }
+    //   });
 
-    });
-    chatInput.setExtraButtonClickListener(function (dismiss) {
-      console.log('Extra弹窗是否消息', dismiss);
-    })
+    // });
+    // chatInput.setExtraButtonClickListener(function (dismiss) {
+    //   console.log('Extra弹窗是否消息', dismiss);
+    // })
   },
 
 
   resetInputStatus: function () {
-    chatInput.closeExtraView();
+    // chatInput.closeExtraView();
   },
   // //播放录音
   // playRecord: function (e) {
