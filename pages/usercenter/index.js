@@ -49,7 +49,7 @@ const orderTagInfos = [{
   },
   {
     title: '已完成',
-    iconName: 'check-rectangle',
+    iconName: 'check',
     orderNum: 0,
     tabType: 40,
     status: 1,

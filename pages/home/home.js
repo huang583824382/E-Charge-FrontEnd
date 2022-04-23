@@ -82,7 +82,7 @@ Page({
   enterChatRoom() {
     console.log("enter chat room");
     wx.navigateTo({
-      url: `/pages/chat/chat`
+      url: `/pages/message-list/index`
     });
   },
 
