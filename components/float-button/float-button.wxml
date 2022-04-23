@@ -1,0 +1,4 @@
+<!--components/float-button.wxml-->
+<view class="float-button">
+  <t-icon class="float-button-icon" name="{{iconName}}" bindtap="handleClick" />
+</view>

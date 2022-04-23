@@ -15,20 +15,13 @@ Component({
       this.setData({
         active: event.detail.value
       });
-      if (this.data.list[event.detail.value].url != 'publish') {
-        wx.switchTab({
-          url: this.data.list[event.detail.value].url.startsWith('/') ?
-            this.data.list[event.detail.value].url : `/${this.data.list[event.detail.value].url}`,
-        });
-        this.setData({
-          isShown: false
-        })
-      } else {
-        console.log("open publish dialog")
-        this.setData({
-          isShown: true
-        })
-      }
+      wx.switchTab({
+        url: this.data.list[event.detail.value].url.startsWith('/') ?
+          this.data.list[event.detail.value].url : `/${this.data.list[event.detail.value].url}`,
+      });
+      this.setData({
+        isShown: false
+      })
 
     },
 
