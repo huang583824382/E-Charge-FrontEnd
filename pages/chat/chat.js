@@ -8,7 +8,29 @@ Page({
    * 页面的初始数据
    */
   data: {
-    wxchatLists: [],
+    wxchatLists: [{
+        dataTime: "19:03",
+        msgType: "text",
+        textMessage: "你好小萌新！",
+        userImgSrc: "/images/Corgi.jpg",
+        to: 0,
+      },
+      {
+        dataTime: "19:04",
+        msgType: "text",
+        textMessage: "你也好小萌新！",
+        userImgSrc: "/images/Corgi.jpg",
+        to: 1,
+      },
+      {
+        dataTime: "19:05",
+        msgType: "img",
+        textMessage: "你也好小萌新！",
+        ImgSrc: "/images/Corgi.jpg",
+        userImgSrc: "/images/Corgi.jpg",
+        to: 1,
+      }
+    ],
     friendHeadUrl: '',
     // textMessage: '',
     chatItems: [],
@@ -17,14 +39,13 @@ Page({
     chatHeight: 0, //聊天屏幕高度
     normalDataTime: '',
   },
-  //item的所有单向信息
+
   // {
   //     dataTime: '',//当前时间
-  //     msg_type: '',//发送消息类型
+  //     msgType: '',//发送消息类型
   //     userImgSrc: '',//用户头像
   //     textMessage: '',//文字消息
-  //     voiceSrc: '',//录音的路径
-  //     voiceTime: 0,//录音的时长
+  //     to:0\1 ,0 收到；1 发出
   //     sendImgSrc: '',//图片路径
   //   }
 
@@ -70,7 +91,7 @@ Page({
       normalDataTime: utils.formatTime(new Date()),
     });
     wx.setNavigationBarTitle({
-      title: '与XX聊天中'
+      title: '杨浩峰'
     });
     that.textButton();
     that.extraButton();
@@ -228,7 +249,8 @@ Page({
   seeBigImg: function (e) {
     var that = this;
     var idx = parseInt(e.currentTarget.dataset.index);
-    var src = that.data.wxchatLists[idx].sendImgSrc;
+    var src = that.data.wxchatLists[idx].ImgSrc;
+    console.log(src)
     wx.previewImage({
       current: src, // 当前显示图片的http链接
       urls: [src] // 需要预览的图片http链接列表

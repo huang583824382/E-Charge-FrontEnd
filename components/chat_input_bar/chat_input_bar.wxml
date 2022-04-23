@@ -1,0 +1,25 @@
+<!--components/chat_input_bar/chat_input_bar.wxml-->
+<view class="input-flex-column">
+  <view class="extra-btn-style">
+    <t-icon name="add" class="extra-btn" size="25px" bind:click="extra_show"></t-icon>
+  </view>
+  <view>
+  </view>
+  <view class="input-wrapper">
+    <t-input style="margin: auto;" adjust-position="{{false}}" placeholder="请输入文字" value="{{textMessage}}" />
+    <t-button class="send_btn" theme="primary">发送</t-button>
+    <!-- <input class="chat-input-style" maxlength="500" confirm-type="send" value="{{textMessage}}" bindconfirm="chatInputSendTextMessage" bindfocus="chatInputBindFocusEvent" bindblur="chatInputBindBlurEvent" bindinput="chatInputGetValueEvent" placeholder='键入消息' cursor-spacing='20' /> -->
+  </view>
+  <!-- <view class="send-wrapper">
+    <t-button class="send_btn" theme="primary">发送</t-button>
+  </view> -->
+</view>
+<t-popup label visible="{{extra_visible}}" bind:visible-change="onVisibleChange" placement="bottom">
+  <view class="extra-space-wrapper">
+    <view class="extra-space" wx:for="{{tools}}" wx:key="index">
+      <t-icon name="{{item.icon}}" size="30px"></t-icon>
+      <name style="font-weight: lighter;"> {{item.text}}</name>
+
+    </view>
+  </view>
+</t-popup>

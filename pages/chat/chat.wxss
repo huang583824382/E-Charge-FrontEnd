@@ -37,9 +37,11 @@ scroll-view {
 }
 
 .chat-content-list.right>.chat-content-list-avatar {
-  margin-right: 0;
+  width: 88rpx;
+  height: 88rpx;
   margin-left: 30rpx;
-  display: none;
+  margin-right: 0;
+  border-radius: 50%;
 }
 
 .chat-content-list.right>.chat-content-list-content>.chat-content-list-name {
