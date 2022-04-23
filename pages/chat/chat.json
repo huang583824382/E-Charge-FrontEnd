@@ -1,1 +1,6 @@
-{}
+{
+  "usingComponents": {
+    "chat_input": "/components/chat_input_bar/chat_input_bar",
+    "t-image": "tdesign-miniprogram/image/image"
+  }
+}
