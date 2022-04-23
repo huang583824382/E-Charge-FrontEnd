@@ -2,6 +2,7 @@
   "pages": [
     "pages/register/index",
     "pages/home/home",
+    "pages/chat/chat",
     "pages/usercenter/index",
     "pages/usercenter/person-info/index",
     "pages/usercenter/address/list/index",
@@ -29,7 +30,8 @@
     "pages/order/fill-tracking-no/index",
     "pages/order/delivery-detail/index",
     "pages/order/invoice/index",
-    "pages/usercenter/name-edit/index"
+    "pages/usercenter/name-edit/index",
+    "pages/publish/publish"
   ],
   "tabBar": {
     "custom": true,
@@ -47,8 +49,8 @@
         "text": "分类"
       },
       {
-        "pagePath": "pages/cart/index",
-        "text": "购物车"
+        "pagePath": "pages/publish/publish",
+        "text": "发布"
       },
       {
         "pagePath": "pages/usercenter/index",
