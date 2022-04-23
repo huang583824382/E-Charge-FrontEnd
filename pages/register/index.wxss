@@ -1,0 +1,32 @@
+.register-page-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+t-icon {
+  margin: 0em;
+  padding: 0em;
+  font-size: 40px;
+}
+
+
+
+.register-icon {
+  display: flex;
+  align-self: center;
+  margin-top: 15%;
+  margin-bottom: 10%;
+}
+
+.register-checkbox {
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+}
+
+.register-btn {
+  display: flex;
+  align-self: center;
+  margin-top: 15%;
+}
