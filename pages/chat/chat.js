@@ -9,21 +9,21 @@ Page({
    */
   data: {
     wxchatLists: [{
-        dataTime: "19:03",
+        dataTime: "13:03",
         msgType: "text",
         textMessage: "你好小萌新！",
         userImgSrc: "/images/Corgi.jpg",
         to: 0,
       },
       {
-        dataTime: "19:04",
+        dataTime: "15:04",
         msgType: "text",
-        textMessage: "你也好小萌新！",
+        textMessage: "你好，易窍极！",
         userImgSrc: "/images/Corgi.jpg",
         to: 1,
       },
       {
-        dataTime: "19:05",
+        dataTime: "17:32",
         msgType: "img",
         textMessage: "你也好小萌新！",
         ImgSrc: "/images/Corgi.jpg",
@@ -91,7 +91,7 @@ Page({
       normalDataTime: utils.formatTime(new Date()),
     });
     wx.setNavigationBarTitle({
-      title: '杨浩峰'
+      title: 'E-Charge'
     });
     that.textButton();
     that.extraButton();

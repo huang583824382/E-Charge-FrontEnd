@@ -1,9 +1,13 @@
-import { OrderStatus } from '../config';
+import {
+  OrderStatus
+} from '../config';
 import {
   fetchOrders,
   fetchOrdersCount,
 } from '../../../services/order/orderList';
-import { cosThumb } from '../../../utils/util';
+import {
+  cosThumb
+} from '../../../utils/util';
 
 Page({
   page: {
@@ -12,19 +16,36 @@ Page({
   },
 
   data: {
-    tabs: [
-      { key: -1, text: '全部' },
-      { key: OrderStatus.PENDING_PAYMENT, text: '待付款', info: '' },
-      { key: OrderStatus.PENDING_DELIVERY, text: '待发货', info: '' },
-      { key: OrderStatus.PENDING_RECEIPT, text: '待收货', info: '' },
-      { key: OrderStatus.COMPLETE, text: '已完成', info: '' },
+    tabs: [{
+        key: -1,
+        text: '全部'
+      },
+      {
+        key: OrderStatus.PENDING_PAYMENT,
+        text: '待付款',
+        info: ''
+      },
+      {
+        key: OrderStatus.PENDING_DELIVERY,
+        text: '待收货',
+        info: ''
+      },
+      {
+        key: OrderStatus.PENDING_RECEIPT,
+        text: '待评价',
+        info: ''
+      },
+      {
+        key: OrderStatus.COMPLETE,
+        text: '已完成',
+        info: ''
+      },
     ],
     curTab: -1,
     orderList: [],
     listLoading: 0,
     pullDownRefreshing: false,
-    emptyImg:
-      'https://cdn-we-retail.ym.tencent.com/miniapp/order/empty-order-list.png',
+    emptyImg: 'https://cdn-we-retail.ym.tencent.com/miniapp/order/empty-order-list.png',
     backRefresh: false,
     status: -1,
   },
@@ -39,7 +60,9 @@ Page({
   onShow() {
     if (!this.data.backRefresh) return;
     this.onRefresh();
-    this.setData({ backRefresh: false });
+    this.setData({
+      backRefresh: false
+    });
   },
 
   onReachBottom() {
@@ -53,15 +76,23 @@ Page({
   },
 
   onPullDownRefresh_(e) {
-    const { callback } = e.detail;
-    this.setData({ pullDownRefreshing: true });
+    const {
+      callback
+    } = e.detail;
+    this.setData({
+      pullDownRefreshing: true
+    });
     this.refreshList(this.data.curTab)
       .then(() => {
-        this.setData({ pullDownRefreshing: false });
+        this.setData({
+          pullDownRefreshing: false
+        });
         callback && callback();
       })
       .catch((err) => {
-        this.setData({ pullDownRefreshing: false });
+        this.setData({
+          pullDownRefreshing: false
+        });
         Promise.reject(err);
       });
   },
@@ -82,7 +113,9 @@ Page({
       },
     };
     if (statusCode !== -1) params.parameter.orderStatus = statusCode;
-    this.setData({ listLoading: 1 });
+    this.setData({
+      listLoading: 1
+    });
     return fetchOrders(params)
       .then((res) => {
         this.page.num++;
@@ -112,7 +145,9 @@ Page({
                 ),
                 price: goods.tagPrice ? goods.tagPrice : goods.actualPrice,
                 num: goods.buyQuantity,
-                titlePrefixTags: goods.tagText ? [{ text: goods.tagText }] : [],
+                titlePrefixTags: goods.tagText ? [{
+                  text: goods.tagText
+                }] : [],
               })),
               buttons: order.buttonVOs || [],
               groupInfoVo: order.groupInfoVo,
@@ -122,7 +157,9 @@ Page({
         }
         return new Promise((resolve) => {
           if (reset) {
-            this.setData({ orderList: [] }, () => resolve());
+            this.setData({
+              orderList: []
+            }, () => resolve());
           } else resolve();
         }).then(() => {
           this.setData({
@@ -132,7 +169,9 @@ Page({
         });
       })
       .catch((err) => {
-        this.setData({ listLoading: 3 });
+        this.setData({
+          listLoading: 3
+        });
         return Promise.reject(err);
       });
   },
@@ -142,7 +181,9 @@ Page({
   },
 
   onTabChange(e) {
-    const { value } = e.detail;
+    const {
+      value
+    } = e.detail;
     this.setData({
       status: value,
     });
@@ -152,14 +193,18 @@ Page({
   getOrdersCount() {
     return fetchOrdersCount().then((res) => {
       const tabsCount = res.data || [];
-      const { tabs } = this.data;
+      const {
+        tabs
+      } = this.data;
       tabs.forEach((tab) => {
         const tabCount = tabsCount.find((c) => c.tabType === tab.key);
         if (tabCount) {
           tab.info = tabCount.orderNum;
         }
       });
-      this.setData({ tabs });
+      this.setData({
+        tabs
+      });
     });
   },
 
@@ -168,7 +213,10 @@ Page({
       size: this.page.size,
       num: 1,
     };
-    this.setData({ curTab: status, orderList: [] });
+    this.setData({
+      curTab: status,
+      orderList: []
+    });
 
     return Promise.all([
       this.getOrderList(status, true),
@@ -181,7 +229,9 @@ Page({
   },
 
   onOrderCardTap(e) {
-    const { order } = e.currentTarget.dataset;
+    const {
+      order
+    } = e.currentTarget.dataset;
     wx.navigateTo({
       url: `/pages/order/order-detail/index?orderNo=${order.orderNo}`,
     });
