@@ -11,7 +11,9 @@ Page({
     imgSrcs: [],
     tabList: [],
     goodsList: [],
+    tasksList: [],
     goodsListLoadStatus: 0,
+    tasksListLoadStatus: 0,
     pageLoading: false,
     current: 1,
     autoplay: true,
@@ -117,6 +119,7 @@ Page({
       const nextList = await fetchGoodsList(pageIndex, pageSize);
       this.setData({
         goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
+        tasksList: fresh ? nextList : this.data.tasksList.concat(nextList),
         goodsListLoadStatus: 0,
       });
 
@@ -136,6 +139,18 @@ Page({
     const {
       spuId
     } = this.data.goodsList[index];
+    wx.navigateTo({
+      url: `/pages/goods/details/index?spuId=${spuId}`,
+    });
+  },
+
+  taskListClickHandle(e) {
+    const {
+      index
+    } = e.detail;
+    const {
+      spuId
+    } = this.data.tasksList[index];
     wx.navigateTo({
       url: `/pages/goods/details/index?spuId=${spuId}`,
     });

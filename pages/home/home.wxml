@@ -26,9 +26,13 @@
 </view>
 <view class="home-page-container">
   <t-tabs t-class="t-tabs" t-class-active="t-class-item" t-class-track="t-class-track" defaultValue="{{0}}" bind:change="tabChangeHandle">
-    <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" value="{{item.key}}" />
+    <t-tab-panel value="{{0}}" label="跳蚤市场">
+      <goods-list wr-class="goods-list-container" goodsList="{{goodsList}}" bind:click="goodListClickHandle" bind:addcart="goodListAddCartHandle" />
+    </t-tab-panel>
+    <t-tab-panel value="{{1}}" label="求购求助">
+      <tasks-list wr-class="tasks-list-container" tasksList="{{goodsList}}" bind:click="goodListClickHandle" bind:addcart=taskListAddCartHandle" />
+    </t-tab-panel>
   </t-tabs>
-  <goods-list wr-class="goods-list-container" goodsList="{{goodsList}}" bind:click="goodListClickHandle" bind:addcart="goodListAddCartHandle" />
   <load-more list-is-empty="{{!goodsList.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" />
   <t-toast id="t-toast" />
   <!-- <view class="float-button">

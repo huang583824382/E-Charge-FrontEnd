@@ -1,0 +1,6 @@
+{
+    "component": true,
+    "usingComponents": {
+        "tasks-card": "/components/tasks-card/index"
+    }
+}
