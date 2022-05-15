@@ -1,0 +1,20 @@
+<view style="text-align: center" wx:if="{{pageLoading}}">
+  <t-loading theme="circular" size="40rpx" loading t-class-indicator="t-class-indicator">
+    <span slot="text" class="loading-text">加载中...</span>
+  </t-loading>
+</view>
+<view class="register-page-container">
+  <t-input placeholder="欢迎来到易窍极，请先完成注册~" disabled="true" />
+  <t-avatar class="register-icon" image="{{personInfo.avatarUrl}}" bind:tap="onTapAvatar" size="100px" />
+  <t-input label="昵称" placeholder="昵称由3-10个汉字或字母组成" clearable />
+  <t-input label="手机号" placehoder="请输入您的手机号" clearable />
+  <t-checkbox-group class="register-checkbox" bind:change="onChange">
+    <t-input label="性别" disabled="true" />
+    <t-checkbox class="register-box" value="checkbox1" label="男" />
+    <t-checkbox class="register-box" value="checkbox2" label="女" />
+  </t-checkbox-group>
+  <t-button class="register-btn" size="large" icon="app" bind:tap="onTapBtn">
+    确认注册
+  </t-button>
+</view>
+<t-toast id="register-t-toast" />

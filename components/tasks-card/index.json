@@ -1,0 +1,10 @@
+{
+  "component": true,
+  "usingComponents": {
+    "price": "/components/price/index",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-image": "/components/webp-image/index",
+    "t-divider": "tdesign-miniprogram/divider/divider",
+    "t-avatar": "tdesign-miniprogram/avatar/avatar"
+  }
+}

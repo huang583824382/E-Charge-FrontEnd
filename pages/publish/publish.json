@@ -1,0 +1,24 @@
+{
+  "navigationBarTitleText": "发布",
+  "onReachBottomDistance": 10,
+  "backgroundTextStyle": "light",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "t-textarea": "tdesign-miniprogram/textarea/textarea",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-input": "tdesign-miniprogram/input/input",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
+    "t-cell": "tdesign-miniprogram/cell/cell",
+    "t-toast": "tdesign-miniprogram/toast/toast",
+    "t-dialog": "tdesign-miniprogram/dialog/dialog",
+    "t-switch": "tdesign-miniprogram/switch/switch",
+    "t-location": "/pages/usercenter/components/t-location/index",
+    "t-upload": "tdesign-miniprogram/upload/upload",
+    "t-tabs": "tdesign-miniprogram/tabs/tabs",
+    "t-tab-panel": "tdesign-miniprogram/tabs/tab-panel",
+    "t-picker": "tdesign-miniprogram/picker/picker",
+    "t-picker-column": "tdesign-miniprogram/picker/picker-column",
+    "fab": "/components/float-button/float-button"
+  }
+}

@@ -4,9 +4,9 @@ export default [{
     url: 'pages/home/home',
   },
   {
-    icon: 'up-load',
+    icon: 'add',
     text: '发布',
-    url: 'pages/publish/index',
+    url: 'pages/publish/publish',
   },
   {
     icon: 'person',

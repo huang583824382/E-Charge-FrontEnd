@@ -15,6 +15,8 @@
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
     "t-tab-panel": "tdesign-miniprogram/tabs/tab-panel",
     "goods-list": "/components/goods-list/index",
-    "load-more": "/components/load-more/index"
+    "tasks-list": "/components/tasks-list/index",
+    "load-more": "/components/load-more/index",
+    "fab": "/components/float-button/float-button"
   }
 }

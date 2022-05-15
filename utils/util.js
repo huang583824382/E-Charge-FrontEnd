@@ -55,7 +55,9 @@ const get = (source, paths, defaultValue) => {
       .split('.')
       .filter(Boolean);
   }
-  const { length } = paths;
+  const {
+    length
+  } = paths;
   let index = 0;
   while (source != null && index < length) {
     source = source[paths[index++]];
@@ -70,7 +72,10 @@ export const loadSystemWidth = () => {
   }
 
   try {
-    ({ screenWidth: systemWidth, pixelRatio } = wx.getSystemInfoSync());
+    ({
+      screenWidth: systemWidth,
+      pixelRatio
+    } = wx.getSystemInfoSync());
   } catch (e) {
     systemWidth = 0;
   }

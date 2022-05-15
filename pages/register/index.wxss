@@ -1,0 +1,40 @@
+.register-page-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+t-icon {
+  margin: 0em;
+  padding: 0em;
+  font-size: 40px;
+}
+
+.register-icon {
+  display: flex;
+  align-self: center;
+  margin-top: 15%;
+  margin-bottom: 10%;
+}
+
+.register-checkbox {
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+}
+
+.register-box {
+  padding-top: 0rpx;
+  padding-bottom: 0rpx;
+  padding-right: 64rpx;
+}
+
+.register-btn {
+  width: 100%;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 50rpx);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-self: center;
+}

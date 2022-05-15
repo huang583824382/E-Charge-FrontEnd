@@ -1,0 +1,8 @@
+<view wx:for="{{sessionList}}">
+  <t-cell title="{{item.name}}" description="{{item.content}}" align="top" t-class-image="title-image-large" image="{{item.avatarUrl}}" bind:click="onTapSession">
+    <view slot="note" class="session-card-aux">
+      <text>{{item.timeStamp}}</text>
+      <t-badge count="{{item.unreadNum}}" />
+    </view>
+  </t-cell>
+</view>

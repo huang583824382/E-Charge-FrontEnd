@@ -26,14 +26,12 @@
     "useMultiFrameRuntime": true,
     "useApiHook": true,
     "useApiHostProcess": true,
-    "ignoreDevUnusedFiles": false,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
     },
-    "enableEngineNative": false,
-    "useIsolateContext": true,
+    "useIsolateContext": false,
     "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
@@ -43,6 +41,7 @@
     "showES6CompileOption": false,
     "useCompilerPlugins": false,
     "ignoreUploadUnusedFiles": true,
+    "ignoreDevUnusedFiles": false,
     "useStaticServer": true
   },
   "compileType": "miniprogram",
@@ -51,6 +50,10 @@
   "projectname": "tdesign-miniprogram-starter-retail",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
   "condition": {
     "miniprogram": {
       "list": [
@@ -134,9 +137,5 @@
         }
       ]
     }
-  },
-  "editorSetting": {
-    "tabIndent": "insertSpaces",
-    "tabSize": 2
   }
 }

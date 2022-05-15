@@ -1,0 +1,17 @@
+/* components/float-button.wxss */
+.float-button {
+  display: flex;
+  flex-wrap: wrap;
+  background: linear-gradient(rgb(228, 247, 178), #9aff3b);
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 15%;
+  right: 5%;
+  border-radius: 50%;
+}
+
+.float-button-icon {
+  font-size: 20px;
+  margin: auto;
+}

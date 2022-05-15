@@ -1,0 +1,90 @@
+<view id="{{independentID}}" class="tasks-card" bind:tap="clickHandle" data-tasks="{{ tasks }}">
+
+
+  <view wx:if="{{ !!tasks.thumb }}" class="tasks-card__main">
+    <view class="pic_tasks-card">
+      <view class="tasks-card__thumb" bind:tap="clickThumbHandle">
+        <t-image wx:if="{{ !!tasks.thumb }}" t-class="tasks-card__img" src="{{ tasks.thumb }}" mode="aspectFill" lazy-load />
+      </view>
+      <view class="tasks-card__body">
+        <view wx:if="{{ tasks.title }}" class="tasks-card__title">
+          {{ tasks.title }}
+        </view>
+      </view>
+      <view style="padding-left: 20rpx; padding-right: 20rpx; font-size: 24rpx;">
+        <t-divider t-class="demo-1" t-class-content="t-class-content">
+          <text slot="content">请求帮助~</text>
+        </t-divider>
+      </view>
+      <view class="tasks-card__body-pic">
+        <view class="tasks-card__upper">
+          <view class="tasks-card__condition">
+            <t-icon name="location" />
+            <view class="condition">
+              紫金港
+            </view>
+
+          </view>
+          <view class="tasks-card__condition">
+            <t-icon name="time" />
+            <view class="condition">
+              10:30前
+            </view>
+
+          </view>
+          <view class="tasks-card__condition">
+            <t-icon name="money-circle" />
+            <view class="condition">
+              5元
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+
+
+  <view wx:if="{{ !tasks.thumb }}" class="nopic_tasks-card">
+    <view class="nopic__head">
+      <title class="head-title">
+        <view class="head-avatar-btn">
+          <t-avatar shape="circle" image="/images/Corgi.jpg" />
+          <t-icon style="font-size: 60rpx;" name="enter"></t-icon>
+        </view>
+        <view class="task-title">
+          帮忙去东2-301打卡签到
+        </view>
+      </title>
+    </view>
+    <t-divider t-class="demo-1" t-class-content="t-class-content">
+      <text slot="content">请求帮助~</text>
+    </t-divider>
+    <view class="tasks-card__body">
+      <view class="tasks-card__upper">
+        <view class="tasks-card__condition">
+          <t-icon name="location" />
+          <view class="condition">
+            紫金港
+          </view>
+
+        </view>
+        <view class="tasks-card__condition">
+          <t-icon name="time" />
+          <view class="condition">
+            10:30前
+          </view>
+
+        </view>
+        <view class="tasks-card__condition">
+          <t-icon name="money-circle" />
+          <view class="condition">
+            5元
+          </view>
+        </view>
+      </view>
+    </view>
+
+  </view>
+</view>
