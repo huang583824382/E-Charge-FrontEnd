@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/home/home",
+    "pages/publish/index",
     "pages/usercenter/index",
     "pages/usercenter/person-info/index",
     "pages/usercenter/address/list/index",
@@ -42,12 +43,8 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/goods/category/index",
-        "text": "分类"
-      },
-      {
-        "pagePath": "pages/cart/index",
-        "text": "购物车"
+        "pagePath": "pages/publish/index",
+        "text": "发布"
       },
       {
         "pagePath": "pages/usercenter/index",
