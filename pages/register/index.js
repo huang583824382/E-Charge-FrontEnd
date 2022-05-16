@@ -11,6 +11,52 @@ Page({
   },
   init() {},
 
+  onChange(event) {
+    console.log('checkbox', event.detail.value);
+  },
+
+  onShow() {
+    // 请求code
+    wx.login({
+      timeout: 1000,
+      success: (res) => {
+        // 获取到code，请求后端
+        console.log(res)
+        wx.request({
+          method: "POST",
+          header: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          url: 'http://localhost:8080/start/login',
+          data: {
+            code: res.code,
+          },
+          success: (res) => {
+
+            console.log(res.data)
+            if (res.data.login == true) {
+              wx.switchTab({
+                // to home
+                url: '/pages/home/home'
+              });
+            } else {
+              // register
+              console.log("register")
+              // 自动
+              // 获取用户信息
+              wx.getUserInfo({
+                success: (res) => {
+
+                }
+              })
+            }
+            console.log(res)
+          }
+        })
+      }
+    })
+  },
+
   onTapAvatar({
     target
   }) {
@@ -21,6 +67,16 @@ Page({
     target
   }) {
     console.log(target);
+    // wx.request({
+    //   url: 'http://localhost:8080/start/register',
+    //   method: "POST",
+    //   timeout: 500,
+    //   success(res) {
+    //     console.log(res);
+    //   }
+    // })
+
+
     wx.switchTab({
       url: '/pages/home/home'
     });
