@@ -59,7 +59,25 @@ Page({
   },
 
   init() {
-    this.loadHomePage();
+    // this.loadHomePage();
+    const app = getApp()
+    var url = app.globalData.URL + "/list/goods"
+    console.log(app.globalData.session_key)
+    // cookie仍有问题
+    wx.request({
+      url: url,
+      method: "POST",
+      header: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        'cookie': app.globalData.session_key
+      },
+      data: {
+        search: "test null",
+      },
+      success: (res) => {
+        console.log(res.data)
+      }
+    })
   },
 
   loadHomePage() {

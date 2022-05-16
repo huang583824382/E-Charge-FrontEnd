@@ -15,46 +15,19 @@ Page({
     console.log('checkbox', event.detail.value);
   },
 
-  onShow() {
-    // 请求code
-    wx.login({
-      timeout: 1000,
-      success: (res) => {
-        // 获取到code，请求后端
-        console.log(res)
-        wx.request({
-          method: "POST",
-          header: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          url: 'http://localhost:8080/start/login',
-          data: {
-            code: res.code,
-          },
-          success: (res) => {
-
-            console.log(res.data)
-            if (res.data.login == true) {
-              wx.switchTab({
-                // to home
-                url: '/pages/home/home'
-              });
-            } else {
-              // register
-              console.log("register")
-              // 自动
-              // 获取用户信息
-              wx.getUserInfo({
-                success: (res) => {
-
-                }
-              })
-            }
-            console.log(res)
-          }
-        })
+  onLoad() {
+    console.log("onload")
+    const app = getApp();
+    app.globalData.loginPromise.then(() => {
+      console.log("uid: " + app.globalData.uid);
+      if (app.globalData.uid != null) {
+        wx.switchTab({
+          // to home
+          url: '/pages/home/home'
+        });
       }
     })
+
   },
 
   onTapAvatar({
