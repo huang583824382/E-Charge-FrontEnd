@@ -5,11 +5,12 @@ App({
     session_key: null,
     uid: null,
     loginPromise: null,
-    URL: 'http://localhost:8080'
+    URL: 'http://localhost:8080',
+    IMG_SEREVER: 'http://localhost:8080'
   },
   onLaunch: function () {
-    this.getSession()
-    this.refreshSession()
+    this.getSession();
+    this.refreshSession();
   },
   onShow: function () {
     updateManager();
@@ -26,7 +27,7 @@ App({
             header: {
               "Content-Type": "application/x-www-form-urlencoded"
             },
-            url: 'http://localhost:8080/start/login',
+            url: this.globalData.URL + '/start/login',
             data: {
               code: res.code,
             },
@@ -35,7 +36,6 @@ App({
               this.globalData.session_key = res.data.session_key;
               if (res.data.option_code == true) {
                 console.log("get true")
-                this.globalData.session_key = res.data.session_key;
                 this.globalData.uid = res.data.uid;
               }
               console.log(res)

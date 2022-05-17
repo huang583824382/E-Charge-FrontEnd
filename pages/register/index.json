@@ -7,6 +7,8 @@
     "t-avatar": "tdesign-miniprogram/avatar/avatar",
     "t-button": "tdesign-miniprogram/button/button",
     "t-toast": "tdesign-miniprogram/toast/toast",
-    "t-checkbox": "tdesign-miniprogram/checkbox/checkbox"
+    "t-cell": "tdesign-miniprogram/cell/cell",
+    "t-popup": "tdesign-miniprogram/popup/popup",
+    "t-select-picker": "./components/ui-select-picker/index"
   }
 }

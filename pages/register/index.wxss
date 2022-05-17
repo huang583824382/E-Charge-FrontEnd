@@ -17,16 +17,8 @@ t-icon {
   margin-bottom: 10%;
 }
 
-.register-checkbox {
-  display: flex;
-  flex-direction: row;
-  align-content: space-between;
-}
-
-.register-box {
-  padding-top: 0rpx;
-  padding-bottom: 0rpx;
-  padding-right: 64rpx;
+.register-input {
+  padding-left: 15rpx;
 }
 
 .register-btn {
