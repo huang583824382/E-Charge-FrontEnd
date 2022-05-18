@@ -2,13 +2,15 @@
 // let toast = require('../../utils/toast.js');
 // let chatInput = require('./chat-input/chat-input');
 var utils = require("../../utils/util")
+import dayjs from './dayjs'
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    wxchatLists: [{
+    desMessage: '',
+    messageList: [{
         dataTime: "13:03",
         msgType: "text",
         textMessage: "你好小萌新！",
@@ -40,6 +42,116 @@ Page({
     normalDataTime: '',
   },
 
+  updateShowTime() {
+    let between = 5 * 60
+    let lastTime = this.data.messageList[this.data.messageList.length - 1].time
+    for (let i = this.data.messageList.length - 1; i >= 0; i--) {
+      this.data.messageList[i].TimeContent = this.messageTimeForShow(this.data.messageList[i])
+      if (lastTime - this.data.messageList[i].time < between && i != 0) {
+        this.data.messageList[i].showTime = false
+      } else {
+        this.data.messageList[i].showTime = true
+        lastTime = this.data.messageList[i].time
+        console.log(this.data.messageList[i].TimeContent)
+      }
+    }
+    this.setData({
+      messageList: this.data.messageList
+    })
+  },
+  messageTimeForShow(messageTime) {
+    const interval = 5 * 60 * 1000;
+    const nowTime = messageTime.time * 1000;
+    const lastTime = this.data.messageList.slice(-1)[0].time * 1000;
+    console.log(dayjs(nowTime).format('YYYY-MM-DD HH:mm:ss'))
+    return dayjs(nowTime).format('YYYY-MM-DD HH:mm:ss')
+  },
+  refresh() {
+    if (this.data.isCompleted) {
+      this.setData({
+        isCompleted: true,
+        triggered: false,
+      });
+      return;
+    }
+    this.getFormerMessage();
+    setTimeout(() => {
+      this.setData({
+        triggered: false,
+      });
+    }, 2000);
+  },
+  getFormerMessage() {
+    if (!this.data.isCompleted) {
+      wx.tim.getMessageList({
+        conversationID: this.data.conversationID,
+        nextReqMessageID: this.data.nextReqMessageID,
+        count: 15,
+      }).then((res) => {
+        console.log(res.data)
+        // this.showMoreHistoryMessageTime(res.data.messageList);
+        const {
+          messageList
+        } = res.data; // 消息列表。
+        this.data.nextReqMessageID = res.data.nextReqMessageID; // 用于续拉，分页续拉时需传入该字段。
+        this.data.isCompleted = res.data.isCompleted; // 表示是否已经拉完所有消息。
+        this.data.messageList = [...messageList, ...this.data.messageList];
+        // if (messageList.length > 0 && this.data.messageList.length < this.data.unreadCount) {
+        //   this.getMessageList(conversation);
+        // }
+        this.updateShowTime()
+        this.$handleMessageRender(this.data.messageList, messageList);
+      });
+    }
+  },
+  // 历史消息渲染
+  $handleMessageRender(messageList, currentMessageList) {
+    // this.showHistoryMessageTime(currentMessageList);
+    for (let i = 0; i < messageList.length; i++) {
+      if (messageList[i].flow === 'out') {
+        messageList[i].isSelf = true;
+      }
+    }
+    if (messageList.length > 0) {
+      this.setData({
+        messageList,
+        desMessage: 'ID' + currentMessageList[currentMessageList.length - 1].ID
+      }, () => {});
+    }
+  },
+  sendMessage(e) {
+    var message = e.detail.message
+    console.log(e, "send")
+    this.messageTimeForShow(message);
+    message.isSelf = true;
+    this.data.messageList.push(message);
+    this.setData({
+      messageList: this.data.messageList,
+      desMessage: 'ID' + this.data.messageList[this.data.messageList.length - 1].ID,
+    });
+  },
+  freshMessageList() {
+    let that = this
+    wx.tim.getMessageList({
+      conversationID: that.data.conversationID,
+      count: 15
+    }).then((imResponse) => {
+      console.log('get response', imResponse)
+      console.log('ID ', 'ID' + imResponse.data.messageList[imResponse.data.messageList.length - 1].ID)
+      that.setData({
+        messageList: imResponse.data.messageList, // 消息列表。
+        nextReqMessageID: imResponse.data.nextReqMessageID, // 用于续拉，分页续拉时需传入该字段。
+        isCompleted: imResponse.data.isCompleted, // 表示是否已经拉完所有消息。
+        desMessage: 'ID' + imResponse.data.messageList[imResponse.data.messageList.length - 1].ID
+      })
+      this.updateShowTime()
+      // this.messageTimeForShow(this.data.messageList[0])
+      // that.setData({
+      //   desMessage: imResponse.data.messageList[imResponse.data.messageList.length - 1].id
+      // }, () => {})
+    });
+  },
+
   // {
   //     dataTime: '',//当前时间
   //     msgType: '',//发送消息类型
@@ -53,17 +165,48 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let _this = this;
-    _this.initData();
-    //获取屏幕的高度
+    console.log(options)
+    let that = this;
+    that.setData({
+      conversationID: options.conversationID
+    })
+
     wx.getSystemInfo({
       success(res) {
-        _this.setData({
+        that.setData({
           height: wx.getSystemInfoSync().windowHeight,
           chatHeight: wx.getSystemInfoSync().windowHeight - 55
         })
       }
     })
+    wx.tim.on(wx.TIM.EVENT.MESSAGE_RECEIVED, this.freshMessageList)
+  },
+
+  onShow: function () {
+    let that = this
+    wx.tim.getConversationProfile(that.data.conversationID).then(function (imResponse) {
+      // 获取成功
+      console.log(imResponse.data.conversation); // 会话资料
+      wx.setNavigationBarTitle({
+        title: imResponse.data.conversation.userProfile.nick
+      })
+      that.setData({
+        conversation: imResponse.data.conversation
+      })
+      wx.tim.setMessageRead({
+        conversationID: that.data.conversationID
+      }).then(function (imResponse) {
+        // 已读上报成功，指定 ID 的会话的 unreadCount 属性值被置为0
+      }).catch(function (imError) {
+        // 已读上报失败
+        console.warn('setMessageRead error:', imError);
+      });
+    }).catch(function (imError) {
+      console.warn('getConversationProfile error:', imError); // 获取会话资料失败的相关信息
+    });
+    // _this.initData();
+    //获取屏幕的高度
+    this.freshMessageList();
   },
   initData: function () {
     let that = this;
@@ -102,7 +245,7 @@ Page({
     // chatInput.setTextMessageListener(function (e) {
     //   let content = e.detail.value;
     //   console.log(content);
-    //   var list = that.data.wxchatLists;
+    //   var list = that.data.messageList;
     //   var temp = {
     //     userImgSrc: '../../image/chat/extra/close_chat.png',
     //     textMessage: content,
@@ -112,7 +255,7 @@ Page({
     //   };
     //   list.push(temp);
     //   that.setData({
-    //     wxchatLists: list,
+    //     messageList: list,
     //   })
     // });
 
@@ -125,7 +268,7 @@ Page({
     //   console.log(tempFilePath);
     //   console.log(vDuration + "这是voice的时长");
 
-    //   var list = that.data.wxchatLists;
+    //   var list = that.data.messageList;
     //   var temp = {
     //     userImgSrc: '../../image/chat/extra/close_chat.png',
     //     voiceSrc: tempFilePath,
@@ -136,7 +279,7 @@ Page({
     //   };
     //   list.push(temp);
     //   that.setData({
-    //     wxchatLists: list,
+    //     messageList: list,
     //   })
     // });
     // chatInput.setVoiceRecordStatusListener(function (status) {
@@ -179,7 +322,7 @@ Page({
     //       let tempFilePath = res.tempFilePaths[0];
     //       console.log(tempFilePath);
 
-    //       var list = that.data.wxchatLists;
+    //       var list = that.data.messageList;
     //       var temp = {
     //         dataTime: utils.formatTime(new Date()),
     //         userImgSrc: '../../image/chat/extra/close_chat.png',
@@ -189,7 +332,7 @@ Page({
     //       };
     //       list.push(temp);
     //       that.setData({
-    //         wxchatLists: list,
+    //         messageList: list,
     //       })
 
 
@@ -219,7 +362,7 @@ Page({
   delMsg: function (e) {
     var that = this;
     var magIdx = parseInt(e.currentTarget.dataset.index);
-    var list = that.data.wxchatLists;
+    var list = that.data.messageList;
 
     wx.showModal({
       title: '提示',
@@ -229,7 +372,7 @@ Page({
           console.log(e);
           list.splice(magIdx, 1);
           that.setData({
-            wxchatLists: list,
+            messageList: list,
           });
           // wx.showToast({
           //   title: '删除成功',
@@ -249,7 +392,7 @@ Page({
   seeBigImg: function (e) {
     var that = this;
     var idx = parseInt(e.currentTarget.dataset.index);
-    var src = that.data.wxchatLists[idx].ImgSrc;
+    var src = that.data.messageList[idx].payload.imageInfoArray[0].url;
     console.log(src)
     wx.previewImage({
       current: src, // 当前显示图片的http链接

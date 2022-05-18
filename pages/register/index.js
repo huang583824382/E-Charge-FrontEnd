@@ -2,6 +2,9 @@ import {
   phoneRegCheck
 } from '../../utils/util';
 import Toast from 'tdesign-miniprogram/toast/index';
+import {
+  genTestUserSig
+} from '../../debug/GenerateTestUserSig.js';
 
 
 Page({
@@ -28,13 +31,24 @@ Page({
   },
   init() {},
 
+  IMlogin() {
+    let userID = "" + getApp().globalData.uid
+    let userSig = genTestUserSig(userID).userSig
+    return wx.tim.login({
+      userID: userID,
+      userSig: userSig
+    })
+  },
+
   onLoad() {
-    console.log("onload")
+    console.log("register onload")
     const app = getApp();
     app.globalData.loginPromise.then(() => {
       console.log("uid: " + app.globalData.uid);
+
       // 已注册用户，进入主页面
       if (app.globalData.uid != null) {
+        this.IMlogin(); //登录IM
         wx.switchTab({
           // to home
           url: '/pages/home/home'
@@ -175,6 +189,8 @@ Page({
               } else {
                 // 设置uid
                 app.globalData.uid = res.data.uid;
+                this.data.name = res.data.name;
+                this.data.avator = res.data.avator;
                 console.log(555);
                 resolve();
               }
@@ -217,6 +233,8 @@ Page({
               } else if (res.data.info === "success") {
                 // 设置uid
                 app.globalData.uid = res.data.uid;
+                this.data.name = res.data.name;
+                this.data.avator = res.data.avator;
                 resolve();
               }
             }
@@ -255,14 +273,28 @@ Page({
 
   // 检查是否能跳转，能则进入主页面
   checkAndSwitchTab() {
+    let that = this;
+    console.log(that.data)
     // uid不为空，说明注册成功
     if (getApp().globalData.uid !== null) {
       // 延时跳转
-      setTimeout(() => {
-        wx.switchTab({
-          url: '/pages/home/home'
-        });
-      }, 300)
+      this.IMlogin(); //登录IM
+      let onReadyFun = function () {
+        setTimeout(() => {
+          wx.tim.updateMyProfile({
+            nick: that.data.name,
+            avatar: that.data.avator,
+          }).then(function (imResponse) {
+            console.log("更新资料成功", imResponse.data); // 
+          }).catch(function (imError) {
+            console.warn('updateMyProfile error:', imError); // 更新资料失败的相关信息
+          });
+          wx.switchTab({
+            url: '/pages/home/home'
+          });
+        }, 300)
+      }
+      wx.tim.on(wx.TIM.EVENT.SDK_READY, onReadyFun)
     }
   },
 

@@ -10,6 +10,12 @@ scroll-view {
   box-sizing: border-box;
 }
 
+.container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
 .chat {
   display: flex;
   flex-direction: column;
@@ -27,7 +33,7 @@ scroll-view {
 .chat-content-list {
   display: flex;
   align-items: flex-start;
-  padding: 0 30rpx;
+  padding: 10rpx 30rpx;
 }
 
 .chat-content-list.right {
@@ -66,7 +72,7 @@ scroll-view {
   color: #fff;
   position: relative;
   /* margin-right: 14rpx; */
-  min-width: 200rpx;
+  min-width: 100rpx;
   max-width: 332rpx;
   line-height: 86rpx;
   font-weight: 300;
@@ -77,11 +83,11 @@ scroll-view {
 
 .chat-content-list-voice.length1 {
   /* width: 182rpx; */
-  width: 200rpx;
+  width: 130rpx;
 }
 
 .chat-content-list-voice.length2 {
-  width: 262rpx;
+  width: 200rpx;
 }
 
 .chat-content-list-voice.length3 {
@@ -272,6 +278,10 @@ scroll-view {
   float: left;
   padding-top: 30rpx;
   box-sizing: border-box;
+}
+
+.message-input {
+  width: 100%;
 }
 
 .chat-content-list .chat-content-list-msg-del {

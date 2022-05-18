@@ -1,22 +1,28 @@
-<import src="./chat-input/chat-input.wxml" />
-<view class="chat" style="height: {{height}}px">
-  <scroll-view scroll-y='true' class="chat-content" style="height: {{chatHeight}}px">
+<view class="container" style="height: {{height}}px">
+  <scroll-view refresher-triggered="{{triggered}}" refresher-enabled="{{true}}" bindrefresherrefresh="refresh" scroll-y='true' scroll-into-view="{{desMessage}}" class="chat-content" style="height: {{chatHeight}}px">
 
     <view>
-      <view wx:for="{{wxchatLists}}" wx:key="{{index}}" data-index="{{index}}">
-        <view class="chat-content-list-time">{{item.dataTime}}</view>
-        <view class='chat-content-list {{item.to == 0 ? "" : "right"}}'>
-          <image class="chat-content-list-avatar " src="{{item.userImgSrc}}"></image>
+      <view id="{{'ID'+item.ID}}" wx:for="{{messageList}}" wx:key="{{index}}" data-index="{{index}}">
+        <view class="chat-content-list-time" wx:if="{{item.showTime}}">{{item.TimeContent}}</view>
+        <view class='chat-content-list {{item.flow == "in" ? "" : "right"}}'>
+          <image class="chat-content-list-avatar " src="{{item.avatar}}"></image>
           <view class="chat-content-list-content " bindlongtap="delMsg" data-index="{{index}}">
             <!--  文字信息模板  ↓ hidden="{{!(item.msg_type === 'text')}}" -->
-            <view class="chat-content-list-msg" hidden="{{!(item.msgType === 'text')}}">
-              <text selectable='true'>{{item.textMessage}}</text>
+            <view class="chat-content-list-msg" hidden="{{!(item.type === 'TIMTextElem')}}">
+              <text selectable='true'>{{item.payload.text}}</text>
+              <view class='over-read-tip '></view>
+            </view>
+
+            <!--  语音信息模板  ↓   hidden="{{!(item.msg_type === 'voice')}}" -->
+            <view class="chat-content-list-voice {{item.payload.second<5?'length1':'length2'}}" bindtap='playRecord' hidden="{{!(item.type === 'TIMSoundElem')}}">
+              <text class=''>{{item.payload.second}}s</text>
+              <SoundIcon />
               <view class='over-read-tip '></view>
             </view>
 
             <!--  图片信息模板  ↓   -->
-            <view class="chat-content-list-img" hidden="{{!(item.msgType === 'img')}}">
-              <t-image data-index="{{index}}" class="size-l radius-m" src="{{item.ImgSrc}}" mode="aspectFill" bindtap="seeBigImg"></t-image>
+            <view class="chat-content-list-img" hidden="{{!(item.type === 'TIMImageElem')}}">
+              <t-image data-index="{{index}}" class="size-l radius-m" src="{{item.payload.imageInfoArray[2].url}}" mode="aspectFill" bindtap="seeBigImg"></t-image>
               <!-- <image src="{{item.ImgSrc}}" mode="aspectFill" bindtap='seeBigImg' data-index="{{index}}"></image> -->
               <!-- <view class='chat-content-list-msg-del' data-index="{{index}}" bindtap="delMsg">X</view> -->
               <view class='over-read-tip '></view>
@@ -26,5 +32,7 @@
       </view>
     </view>
   </scroll-view>
-  <chat_input />
+  <view class="message-input">
+    <TUI-message-input id="message-input" conversation="{{conversation}}" bind:sendMessage="sendMessage" bind:showMessageErrorImage="showMessageErrorImage" bind:handleCall="handleCall"></TUI-message-input>
+  </view>
 </view>

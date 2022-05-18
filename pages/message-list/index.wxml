@@ -1,8 +1,8 @@
-<view wx:for="{{sessionList}}">
-  <t-cell title="{{item.name}}" description="{{item.content}}" align="top" t-class-image="title-image-large" image="{{item.avatarUrl}}" bind:click="onTapSession">
+<view wx:for="{{conversationList}}">
+  <t-cell data-index='{{index}}' title="{{item.userProfile.nick}}" description="{{item.lastMessage.messageForShow}}" align="top" t-class-image="title-image-large" image="{{item.userProfile.avatar}}" bind:click="onTapSession">
     <view slot="note" class="session-card-aux">
-      <text>{{item.timeStamp}}</text>
-      <t-badge count="{{item.unreadNum}}" />
+      <text>{{}}</text>
+      <t-badge count="{{item.unreadCount}}" />
     </view>
   </t-cell>
 </view>

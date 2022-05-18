@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "TUI-Emoji": "./emoji/index",
+    "t-popup": "tdesign-miniprogram/popup/popup"
+  }
+}
