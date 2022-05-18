@@ -6,7 +6,7 @@ App({
     uid: null,
     loginPromise: null,
     URL: 'http://localhost:8080',
-    IMG_SEREVER: 'http://localhost:8080'
+    IMG_SERVER: 'http://localhost:8080/img'
   },
   onLaunch: function () {
     this.getSession();

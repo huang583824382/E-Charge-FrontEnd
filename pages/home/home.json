@@ -14,6 +14,7 @@
     "t-toast": "tdesign-miniprogram/toast/toast",
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
     "t-tab-panel": "tdesign-miniprogram/tabs/tab-panel",
+    "t-button": "tdesign-miniprogram/button/button",
     "goods-list": "/components/goods-list/index",
     "tasks-list": "/components/tasks-list/index",
     "load-more": "/components/load-more/index",
