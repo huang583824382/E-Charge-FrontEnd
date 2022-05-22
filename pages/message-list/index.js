@@ -96,7 +96,8 @@
 
 Page({
   data: {
-    conversationList: []
+    conversationList: [],
+    isEmpty: true,
   },
   methods: {
     init() {
@@ -115,7 +116,8 @@ Page({
     let promise = wx.tim.getConversationList();
     promise.then(function (imResponse) {
       that.setData({
-        conversationList: imResponse.data.conversationList
+        conversationList: imResponse.data.conversationList,
+        isEmpty: imResponse.data.conversationList.length == 0,
       })
       // 全量的会话列表，用该列表覆盖原有的会话列表
       console.log("listget", that.data.conversationList)

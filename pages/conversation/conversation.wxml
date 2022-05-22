@@ -1,0 +1,37 @@
+<!-- 这里有个加载的补丁逻辑待优化，页面向SDK请求conversationList的时候会有时延，
+造成页面的一个抖动，这里加一个if逻辑打一个补丁，后续继续优化 -->
+<view wx:if="{{!isEmpty}}" class="container">
+  <view class="conversation-search-bar">
+    <t-search model:value="{{value}}" t-class-input="t-search__input" t-class-input-container="t-search__input-container" placeholder="搜索用户昵称或id（新用户只能用id搜索）" rightIcon="close" action="搜索" bind:change="onValueChange" bind:action-click="onClickSearch">
+      <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
+    </t-search>
+  </view>
+  <view wx:if="{{isEmpty}}">没有更多消息了~</view>
+  <view class="conversation-list-area">
+    <scroll-view class="scoll-view" scroll-y="true">
+      <view wx:for="{{conversationList}}">
+        <TUI-conversation-item wx:if="{{item.filter}}" wx:key="index" id="{{item.conversationID}}" data-index="{{index}}" conversation="{{item}}" bindtap="handleRoute" bind:transCheckID="transCheckID" charge="{{transChenckID===item.conversationID}}"></TUI-conversation-item>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+<view wx:if="{{showSelectTag}}" class="conversation-bubble" catchtap="handleEditToggle">
+  <view class="picker" wx:for="{{array}}" wx:key="index" data-name="{{item.name}}" bindtap="handleOnTap">
+    {{item.name}}
+  </view>
+</view>
+<t-popup z-index="{{5000}}" visible="{{userVisible}}" bind:visible-change="onVisibleChange" placement="top">
+  <view>
+    <view class="person-profile-container" bindtap="openConversation">
+      <view class="tui-person-profile">
+        <image class="tui-person-profile-avatar" src="{{searchUser.avatar || 'https://sdk-web-1252463788.cos.ap-hongkong.myqcloud.com/component/TUIKit/assets/avatar_21.png' }}" />
+        <view>
+          <view class="tui-person-profile-nick">{{searchUser.nick}}</view>
+          <view class="tui-person-profile-userID">用户ID：{{searchUser.userID}}</view>
+        </view>
+      </view>
+    </view>
+
+  </view>
+
+</t-popup>

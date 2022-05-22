@@ -10,29 +10,7 @@ Page({
    */
   data: {
     desMessage: '',
-    messageList: [{
-        dataTime: "13:03",
-        msgType: "text",
-        textMessage: "你好小萌新！",
-        userImgSrc: "/images/Corgi.jpg",
-        to: 0,
-      },
-      {
-        dataTime: "15:04",
-        msgType: "text",
-        textMessage: "你好，易窍极！",
-        userImgSrc: "/images/Corgi.jpg",
-        to: 1,
-      },
-      {
-        dataTime: "17:32",
-        msgType: "img",
-        textMessage: "你也好小萌新！",
-        ImgSrc: "/images/Corgi.jpg",
-        userImgSrc: "/images/Corgi.jpg",
-        to: 1,
-      }
-    ],
+    messageList: [],
     friendHeadUrl: '',
     // textMessage: '',
     chatItems: [],
@@ -60,9 +38,7 @@ Page({
     })
   },
   messageTimeForShow(messageTime) {
-    const interval = 5 * 60 * 1000;
     const nowTime = messageTime.time * 1000;
-    const lastTime = this.data.messageList.slice(-1)[0].time * 1000;
     console.log(dayjs(nowTime).format('YYYY-MM-DD HH:mm:ss'))
     return dayjs(nowTime).format('YYYY-MM-DD HH:mm:ss')
   },
@@ -136,15 +112,24 @@ Page({
       conversationID: that.data.conversationID,
       count: 15
     }).then((imResponse) => {
+
       console.log('get response', imResponse)
-      console.log('ID ', 'ID' + imResponse.data.messageList[imResponse.data.messageList.length - 1].ID)
-      that.setData({
-        messageList: imResponse.data.messageList, // 消息列表。
-        nextReqMessageID: imResponse.data.nextReqMessageID, // 用于续拉，分页续拉时需传入该字段。
-        isCompleted: imResponse.data.isCompleted, // 表示是否已经拉完所有消息。
-        desMessage: 'ID' + imResponse.data.messageList[imResponse.data.messageList.length - 1].ID
-      })
-      this.updateShowTime()
+      // console.log('ID ', 'ID' + imResponse.data.messageList[imResponse.data.messageList.length - 1].ID)
+      if (imResponse.data.messageList.length > 0) {
+        that.setData({
+          messageList: imResponse.data.messageList, // 消息列表。
+          nextReqMessageID: imResponse.data.nextReqMessageID, // 用于续拉，分页续拉时需传入该字段。
+          isCompleted: imResponse.data.isCompleted, // 表示是否已经拉完所有消息。
+          desMessage: 'ID' + imResponse.data.messageList[imResponse.data.messageList.length - 1].ID
+        })
+        this.updateShowTime()
+      } else {
+        that.setData({
+          messageList: imResponse.data.messageList, // 消息列表。
+        })
+      }
+
+
       // this.messageTimeForShow(this.data.messageList[0])
       // that.setData({
       //   desMessage: imResponse.data.messageList[imResponse.data.messageList.length - 1].id

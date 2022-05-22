@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/register/index",
+    "pages/conversation/conversation",
     "pages/home/home",
     "pages/chat/chat",
     "pages/usercenter/index",

@@ -1,4 +1,8 @@
-<view wx:for="{{conversationList}}">
+<view wx:if="{{isEmpty}}" class="list-holder">
+  <view class="show-empty">还没有什么聊天记录~</view>
+  <view class="show-empty">快TM去买东西吧！</view>
+</view>
+<view wx:if="{{!isEmpty}}" wx:for="{{conversationList}}">
   <t-cell data-index='{{index}}' title="{{item.userProfile.nick}}" description="{{item.lastMessage.messageForShow}}" align="top" t-class-image="title-image-large" image="{{item.userProfile.avatar}}" bind:click="onTapSession">
     <view slot="note" class="session-card-aux">
       <text>{{}}</text>

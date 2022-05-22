@@ -99,9 +99,12 @@ Page({
   // 进入会话界面
   enterChatRoom() {
     console.log("enter chat room");
+    // wx.navigateTo({
+    //   url: `/pages/message-list/index`
+    // });
     wx.navigateTo({
-      url: `/pages/message-list/index`
-    });
+      url: '/pages/conversation/conversation'
+    })
   },
 
   // 切换tab栏

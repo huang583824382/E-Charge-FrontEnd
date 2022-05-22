@@ -49,10 +49,11 @@ Page({
       // 已注册用户，进入主页面
       if (app.globalData.uid != null) {
         this.IMlogin(); //登录IM
-        wx.switchTab({
+
+        wx.tim.on(wx.TIM.EVENT.SDK_READY, wx.switchTab({
           // to home
           url: '/pages/home/home'
-        });
+        }))
       }
       // 未注册用户，留在注册页面
     })

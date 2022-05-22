@@ -5,7 +5,7 @@
       <view id="{{'ID'+item.ID}}" wx:for="{{messageList}}" wx:key="{{index}}" data-index="{{index}}">
         <view class="chat-content-list-time" wx:if="{{item.showTime}}">{{item.TimeContent}}</view>
         <view class='chat-content-list {{item.flow == "in" ? "" : "right"}}'>
-          <image class="chat-content-list-avatar " src="{{item.avatar}}"></image>
+          <image class="chat-content-list-avatar " src="{{item.avatar==''?'https://sdk-web-1252463788.cos.ap-hongkong.myqcloud.com/component/TUIKit/assets/avatar_21.png':item.avatar}}"></image>
           <view class="chat-content-list-content " bindlongtap="delMsg" data-index="{{index}}">
             <!--  文字信息模板  ↓ hidden="{{!(item.msg_type === 'text')}}" -->
             <view class="chat-content-list-msg" hidden="{{!(item.type === 'TIMTextElem')}}">
