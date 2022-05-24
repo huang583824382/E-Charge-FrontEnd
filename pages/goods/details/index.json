@@ -10,6 +10,7 @@
     "t-button": "tdesign-miniprogram/button/button",
     "t-icon": "tdesign-miniprogram/icon/icon",
     "t-popup": "tdesign-miniprogram/popup/popup",
+    "t-dialog": "tdesign-miniprogram/dialog/dialog",
     "price": "/components/price/index",
     "buy-bar": "./components/buy-bar/index",
     "promotion-popup": "./components/promotion-popup/index",

@@ -1,12 +1,23 @@
-import Toast from 'tdesign-miniprogram/toast/index';
-import { fetchGood } from '../../../services/good/fetchGood';
-import { fetchActivityList } from '../../../services/activity/fetchActivityList';
+import {
+  fetchGood
+} from '../../../services/good/fetchGood';
+import {
+  fetchActivityList
+} from '../../../services/activity/fetchActivityList';
 import {
   getGoodsDetailsCommentList,
   getGoodsDetailsCommentsCount,
 } from '../../../services/good/fetchGoodsDetailsComments';
 
-import { cdnBase } from '../../../config/index';
+import {
+  cdnBase
+} from '../../../config/index';
+
+
+// 用于确认购买
+import Dialog from 'tdesign-miniprogram/dialog/index';
+import Toast from 'tdesign-miniprogram/toast/index';
+
 
 const imgPrefix = `${cdnBase}/`;
 
@@ -37,8 +48,7 @@ Page({
     recLeftImg,
     recRightImg,
     details: {},
-    goodsTabArray: [
-      {
+    goodsTabArray: [{
         name: '商品',
         value: '', // 空字符串代表置顶
       },
@@ -49,8 +59,7 @@ Page({
     ],
     storeLogo: `${imgPrefix}common/store-logo.png`,
     storeName: '云mall标准版旗舰店',
-    jumpArray: [
-      {
+    jumpArray: [{
         title: '首页',
         url: '/pages/home/home',
         iconName: 'home',
@@ -81,8 +90,10 @@ Page({
     minSalePrice: 0,
     maxSalePrice: 0,
     list: [],
-    spuId: '',
-    navigation: { type: 'fraction' },
+    spuId: 0,
+    navigation: {
+      type: 'fraction'
+    },
     current: 0,
     autoplay: true,
     duration: 500,
@@ -113,29 +124,42 @@ Page({
   },
 
   toNav(e) {
-    const { url } = e.detail;
+    const {
+      url
+    } = e.detail;
     wx.switchTab({
       url: url,
     });
   },
 
   showCurImg(e) {
-    const { index } = e.detail;
-    const { images } = this.data.details;
+    const {
+      index
+    } = e.detail;
+    const {
+      images
+    } = this.data.details;
     wx.previewImage({
       current: images[index],
       urls: images, // 需要预览的图片http链接列表
     });
   },
 
-  onPageScroll({ scrollTop }) {
+  onPageScroll({
+    scrollTop
+  }) {
     const goodsTab = this.selectComponent('#goodsTab');
     goodsTab && goodsTab.onScroll(scrollTop);
   },
 
   chooseSpecItem(e) {
-    const { specList } = this.data.details;
-    const { selectedSku, isAllSelectedSku } = e.detail;
+    const {
+      specList
+    } = this.data.details;
+    const {
+      selectedSku,
+      isAllSelectedSku
+    } = e.detail;
     if (!isAllSelectedSku) {
       this.setData({
         selectSkuSellsPrice: 0,
@@ -148,7 +172,10 @@ Page({
   },
 
   getSkuItem(specList, selectedSku) {
-    const { skuArray, primaryImage } = this.data;
+    const {
+      skuArray,
+      primaryImage
+    } = this.data;
     const selectedSkuValues = this.getSelectedSkuValues(specList, selectedSku);
     let selectedAttrStr = ` 件  `;
     selectedSkuValues.forEach((item) => {
@@ -221,7 +248,9 @@ Page({
   },
 
   addCart() {
-    const { isAllSelectedSku } = this.data;
+    const {
+      isAllSelectedSku
+    } = this.data;
     Toast({
       context: this,
       selector: '#t-toast',
@@ -231,43 +260,111 @@ Page({
     });
   },
 
-  gotoBuy(type) {
-    const { isAllSelectedSku, buyNum } = this.data;
-    if (!isAllSelectedSku) {
-      Toast({
-        context: this,
-        selector: '#t-toast',
-        message: '请选择规格',
-        icon: '',
-        duration: 1000,
-      });
-      return;
-    }
-    this.handlePopupHide();
-    const query = {
-      quantity: buyNum,
-      storeId: '1',
-      spuId: this.data.spuId,
-      goodsName: this.data.details.title,
-      skuId:
-        type === 1 ? this.data.skuList[0].skuId : this.data.selectItem.skuId,
-    };
-    let urlQueryStr = obj2Params({
-      goodsRequestList: JSON.stringify([query]),
-    });
-    urlQueryStr = urlQueryStr ? `?${urlQueryStr}` : '';
-    const path = `/pages/order/order-confirm/index${urlQueryStr}`;
-    wx.navigateTo({
-      url: path,
+  // 提示信息
+  showInfo(suc, msg) {
+    Toast({
+      context: this,
+      selector: '#t-toast',
+      message: msg,
+      theme: suc ? 'success' : 'fail',
     });
   },
 
+  // 确认是否购买，是则前往
+  gotoBuy(type) {
+    //const { isAllSelectedSku, buyNum } = this.data;
+    // if (!isAllSelectedSku) {
+    //   Toast({
+    //     context: this,
+    //     selector: '#t-toast',
+    //     message: '请选择规格',
+    //     icon: '',
+    //     duration: 1000,
+    //   });
+    //   return;
+    // }
+
+    // 询问是否需要
+    Dialog.confirm({
+      title: '确认购买',
+      content: '您确认要购买该商品吗?',
+      confirmBtn: '确认',
+      cancelBtn: '取消',
+    }).then(() => {
+      // 确认购买，发送请求，生成订单
+      var url = getApp().globalData.URL + "/trans/buy";
+      console.log(url);
+      wx.request({
+        url: url,
+        method: "POST",
+        header: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        data: {
+          token: getApp().globalData.session_key, // token
+          itemId: this.data.spuId // item id
+        },
+        success: (res) => {
+          if (res.statusCode === 200) {
+            console.log(res);
+            if (res.data.code === "fail") {
+              this.showInfo(false, '出错了，请稍后重试');
+            } else if (res.data.code === "has been bought") {
+              this.showInfo(false, '出手慢了，该商品已被购买');
+            } else {
+              this.showInfo(true, '成功下单，即将前往支付界面');
+              // 隐藏弹窗
+              this.handlePopupHide();
+              // 回到主页
+              wx.switchTab({
+                url: '/pages/home/home',
+              });
+              // wx.navigateTo({
+              //   url: '/pages/home/home',
+              // });
+            }
+          } else {
+
+          }
+        },
+        fail: (res) => {
+          console.log(res);
+
+        }
+      });
+
+
+    });
+
+
+
+
+
+    // const query = {
+    //   quantity: buyNum,
+    //   storeId: '1',
+    //   spuId: this.data.spuId,
+    //   goodsName: this.data.details.title,
+    //   skuId:
+    //     type === 1 ? this.data.skuList[0].skuId : this.data.selectItem.skuId,
+    // };
+    // let urlQueryStr = obj2Params({
+    //   goodsRequestList: JSON.stringify([query]),
+    // });
+    // urlQueryStr = urlQueryStr ? `?${urlQueryStr}` : '';
+    // const path = `/pages/order/order-confirm/index${urlQueryStr}`;
+  },
+
+  // TODO: 根据身份进行拓展
   specsConfirm() {
-    const { buyType } = this.data;
+    const {
+      buyType
+    } = this.data;
+    // 购买
     if (buyType === 1) {
       this.gotoBuy();
     } else {
-      this.addCart();
+      //this.addCart();
     }
     // this.handlePopupHide();
   },
@@ -285,7 +382,9 @@ Page({
   },
 
   promotionChange(e) {
-    const { index } = e.detail;
+    const {
+      index
+    } = e.detail;
     wx.navigateTo({
       url: `/pages/promotion-detail/index?promotion_id=${index}`,
     });
@@ -344,7 +443,9 @@ Page({
     try {
       const code = 'Success';
       const data = await getGoodsDetailsCommentList();
-      const { homePageComments } = data;
+      const {
+        homePageComments
+      } = data;
       if (code.toUpperCase() === 'SUCCESS') {
         const nextState = {
           commentsList: homePageComments.map((item) => {
@@ -353,9 +454,8 @@ Page({
               userName: item.userName || '',
               commentScore: item.commentScore,
               commentContent: item.commentContent || '用户未填写评价',
-              userHeadUrl: item.isAnonymity
-                ? this.anonymityAvatar
-                : item.userHeadUrl || this.anonymityAvatar,
+              userHeadUrl: item.isAnonymity ?
+                this.anonymityAvatar : item.userHeadUrl || this.anonymityAvatar,
             };
           }),
         };
@@ -368,7 +468,9 @@ Page({
 
   onShareAppMessage() {
     // 自定义的返回信息
-    const { selectedAttrStr } = this.data;
+    const {
+      selectedAttrStr
+    } = this.data;
     let shareSubTitle = '';
     if (selectedAttrStr.indexOf('件') > -1) {
       const count = selectedAttrStr.indexOf('件');
@@ -422,12 +524,21 @@ Page({
   },
 
   onLoad(query) {
-    const { spuId } = query;
+    const app = getApp();
+    const {
+      spuId
+    } = query;
+
+    console.log(spuId);
+
     this.setData({
       spuId: spuId,
     });
-    this.getDetail(spuId);
-    this.getCommentsList(spuId);
-    this.getCommentsStatistics(spuId);
+    console.log(this.data.spuId);
+    // this.getDetail(spuId);
+    // this.getCommentsList(spuId);
+    // this.getCommentsStatistics(spuId);
+    // 发请求，根据itemId获取商品/任务信息
+
   },
 });

@@ -83,8 +83,13 @@ Component({
 
   methods: {
     initData() {
-      const { skuList } = this.properties;
-      const { specList } = this.properties;
+      const {
+        skuList
+      } = this.properties;
+      const {
+        specList
+      } = this.properties;
+      
       specList.forEach((item) => {
         if (item.specValueList.length > 0) {
           item.specValueList.forEach((subItem) => {
@@ -130,8 +135,13 @@ Component({
     },
 
     chooseSpecValueId(specValueId, specId) {
-      const { selectSpecObj } = this;
-      const { skuList, specList } = this.properties;
+      const {
+        selectSpecObj
+      } = this;
+      const {
+        skuList,
+        specList
+      } = this.properties;
       if (selectSpecObj[specId]) {
         selectSpecObj[specId] = [];
         this.selectSpecObj = selectSpecObj;
@@ -254,9 +264,13 @@ Component({
     },
 
     toChooseItem(e) {
-      const { isStock } = this.properties;
+      const {
+        isStock
+      } = this.properties;
       if (!isStock) return;
-      const { id } = e.currentTarget.dataset;
+      const {
+        id
+      } = e.currentTarget.dataset;
       const specId = e.currentTarget.dataset.specid;
       const hasStock = e.currentTarget.dataset.hasstock;
       if (!hasStock) {
@@ -270,12 +284,22 @@ Component({
         return;
       }
 
-      let { selectedSku } = this;
-      const { specList } = this.properties;
+      let {
+        selectedSku
+      } = this;
+      const {
+        specList
+      } = this.properties;
       selectedSku =
-        selectedSku[specId] === id
-          ? { ...this.selectedSku, [specId]: '' }
-          : { ...this.selectedSku, [specId]: id };
+        selectedSku[specId] === id ?
+        {
+          ...this.selectedSku,
+          [specId]: ''
+        } :
+        {
+          ...this.selectedSku,
+          [specId]: id
+        };
       specList.forEach((item) => {
         item.specValueList.forEach((valuesItem) => {
           if (item.specId === specId) {
@@ -319,20 +343,28 @@ Component({
     },
 
     specsConfirm() {
-      const { isStock } = this.properties;
+      const {
+        isStock
+      } = this.properties;
       if (!isStock) return;
       this.triggerEvent('specsConfirm');
     },
 
     addCart() {
-      const { isStock } = this.properties;
+      const {
+        isStock
+      } = this.properties;
       if (!isStock) return;
       this.triggerEvent('addCart');
     },
 
     buyNow() {
-      const { isAllSelectedSku } = this.data;
-      const { isStock } = this.properties;
+      const {
+        isAllSelectedSku
+      } = this.data;
+      const {
+        isStock
+      } = this.properties;
       if (!isStock) return;
       this.triggerEvent('buyNow', {
         isAllSelectedSku,
@@ -341,8 +373,12 @@ Component({
 
     // 加
     handleBuyNumPlus() {
-      const { buyNum } = this.data;
-      const { isStock } = this.properties;
+      const {
+        buyNum
+      } = this.data;
+      const {
+        isStock
+      } = this.properties;
       if (!isStock) return;
       const nextBuyNum = Number(buyNum) + 1;
       this.setBuyNum(nextBuyNum > 999 ? buyNum : nextBuyNum);
@@ -350,9 +386,15 @@ Component({
 
     // 减
     handleBuyNumMinus() {
-      const { buyNum } = this.data;
-      const { limitMinCount } = this.properties;
-      const { isStock } = this.properties;
+      const {
+        buyNum
+      } = this.data;
+      const {
+        limitMinCount
+      } = this.properties;
+      const {
+        isStock
+      } = this.properties;
       if (!isStock || buyNum < limitMinCount + 1) return;
       const nextBuyNum = Number(buyNum) - 1;
       this.setBuyNum(nextBuyNum < 1 ? buyNum : nextBuyNum);
@@ -371,17 +413,21 @@ Component({
     // 输入框
     handleBuyNumChange(e) {
       const {
-        detail: { value },
+        detail: {
+          value
+        },
       } = e;
       const valInNum = Number(value);
-      const { limitMaxCount, limitMinCount } = this.properties;
+      const {
+        limitMaxCount,
+        limitMinCount
+      } = this.properties;
       const nextData = {
-        buyNum:
-          valInNum < limitMinCount
-            ? limitMinCount
-            : valInNum > limitMaxCount
-            ? limitMaxCount
-            : valInNum,
+        buyNum: valInNum < limitMinCount ?
+          limitMinCount :
+          valInNum > limitMaxCount ?
+          limitMaxCount :
+          valInNum,
       };
       this.setData(nextData);
     },
