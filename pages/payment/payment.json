@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-toast": "tdesign-miniprogram/toast/toast",
+    "t-rate": "tdesign-miniprogram/rate/rate",
+    "t-cell": "tdesign-miniprogram/cell/cell",
+    "t-image": "tdesign-miniprogram/image/image"
+  }
+}

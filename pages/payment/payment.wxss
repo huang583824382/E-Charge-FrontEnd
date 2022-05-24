@@ -1,0 +1,75 @@
+/* pages/comment.wxss */
+.comment-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vmax;
+}
+
+.trans-info-container {
+  display: flex;
+  flex-direction: column;
+  height: 400rpx;
+  width: 100%;
+  /* background-color: rgb(226, 210, 186); */
+  margin-top: 50rpx;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10rpx;
+  border: 1rpx solid rgb(170, 206, 114);
+  border-radius: 5%;
+}
+
+.rate-container {
+  display: flex;
+  flex-direction: column;
+  /* background-color: cadetblue; */
+  margin-bottom: 10rpx;
+  width: 100%;
+}
+
+.cell-style {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: aqua;
+}
+
+.price-style {
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: x-large;
+  font-weight: 700;
+  color: red;
+}
+
+.button-container {
+  margin-bottom: 100rpx;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  /* background-color: chartreuse; */
+}
+
+.image-style {
+  width: 256rpx;
+  height: 256rpx;
+  border-radius: 32rpx;
+  overflow: hidden;
+}
+
+.title-wrapper {
+  padding: 30rpx;
+  width: 95%;
+  font-size: 32rpx;
+  color: #333;
+  line-height: 50rpx;
+  font-weight: 400;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  word-break: break-word;
+}

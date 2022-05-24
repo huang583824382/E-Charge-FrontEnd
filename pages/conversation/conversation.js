@@ -32,7 +32,7 @@ Page({
    */
   onLoad() {
     // 登入后拉去会话列表
-    wx.tim.on(wx.TIM.EVENT.CONVERSATION_LIST_UPDATED, this.onConversationListUpdated, this);
+    wx.tim.on(wx.TIM.EVENT.CONVERSATION_LIST_UPDATED, this.onConversationListUpdated);
 
   },
   onShow() {
@@ -65,7 +65,6 @@ Page({
   },
   // 更新会话列表
   onConversationListUpdated(event) {
-    for (item in event.data) {}
     this.setData({
       conversationList: event.data,
     });

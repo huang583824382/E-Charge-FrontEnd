@@ -191,7 +191,7 @@ Page({
                 // 设置uid
                 app.globalData.uid = res.data.uid;
                 this.data.name = res.data.name;
-                this.data.avator = res.data.avator;
+                this.data.avatar = res.data.avatar;
                 console.log(555);
                 resolve();
               }
@@ -235,7 +235,7 @@ Page({
                 // 设置uid
                 app.globalData.uid = res.data.uid;
                 this.data.name = res.data.name;
-                this.data.avator = res.data.avator;
+                this.data.avatar = res.data.avatar;
                 resolve();
               }
             }
@@ -284,7 +284,7 @@ Page({
         setTimeout(() => {
           wx.tim.updateMyProfile({
             nick: that.data.name,
-            avatar: that.data.avator,
+            avatar: that.data.avatar,
           }).then(function (imResponse) {
             console.log("更新资料成功", imResponse.data); // 
           }).catch(function (imError) {

@@ -58,5 +58,5 @@
     <!-- </load-more> -->
   </t-pull-down-refresh>
 </view>
-<t-toast id="t-toast" />
+<t-toast id="order-t-toast" />
 <t-dialog id="t-dialog" t-class-confirm="add-notes__confirm" />

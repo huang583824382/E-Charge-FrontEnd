@@ -1,0 +1,29 @@
+<view class="comment-container">
+  <view class="trans-info-container">
+    <t-image t-class="image-style" src="{{coverUrl}}" mode="aspectFill"></t-image>
+    <view class="title-wrapper">
+      {{title}}
+    </view>
+  </view>
+
+  <view class="rate-container">
+    <t-cell title="下单时间" hover note="{{transTime}}" />
+    <t-cell title="卖家信息" hover note="{{sellerName}}" />
+    <t-cell title="备注说明（是否需要）" hover note="1" />
+    <view class="price-style">
+      <view style="margin-right: 50rpx;">
+        ￥{{price}}
+      </view>
+
+    </view>
+  </view>
+  <view class="button-container">
+    <t-button icon="close" theme="danger" size="large" shape="round" bindtap="cancel">
+      取消订单
+    </t-button>
+    <t-button icon="check" theme="primary" size="large" shape="round" bindtap="pay">
+      确认付款
+    </t-button>
+  </view>
+</view>
+<t-toast id="pay-t-toast" />

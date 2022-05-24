@@ -8,6 +8,7 @@ import {
 import {
   cosThumb
 } from '../../../utils/util';
+import Toast from 'tdesign-miniprogram/toast/index';
 
 Page({
   page: {
@@ -68,11 +69,7 @@ Page({
   },
 
   onShow() {
-    if (!this.data.backRefresh) return;
     this.onRefresh();
-    this.setData({
-      backRefresh: false
-    });
   },
 
   onReachBottom() {
@@ -214,7 +211,8 @@ Page({
 
   refreshList(status = -1, lastIndex = 0) {
     this.setData({
-      pullDownRefreshing: true
+      pullDownRefreshing: true,
+      orderList: this.data.orderList
     });
     let that = this
     var app = getApp()
@@ -246,11 +244,20 @@ Page({
       },
       success: (res) => {
         console.log("/trans/list", res)
+        console.log("in refreshlist")
+        var tmplist = []
+        for (var i = 0; i < that.data.orderList.length; i++) {
+          //删除index比lastindex大的东西
+          console.log(that.data.orderList[i].transaction_id, lastIndex)
+          if (that.data.orderList[i].transaction_id <= lastIndex) {
+            tmplist.push(that.data.orderList[i])
+          }
+        }
         that.setData({
-          orderList: that.data.orderList.concat(res.data),
+          orderList: tmplist.concat(res.data),
         })
-        this.addBtnInfo()
-        console.log(this.data.orderList)
+        that.addBtnInfo()
+        console.log(that.data.orderList)
       }
     })
 
@@ -267,13 +274,17 @@ Page({
       console.log("addBtnInfo customer", this.data.orderList)
       for (let i = 0; i < this.data.orderList.length; i++) {
         switch (this.data.orderList[i].state) {
+          case 0:
+            this.data.orderList[i].btn1 = '已取消'
+            this.data.orderList[i].btn2 = ''
+            break
           case 1:
             this.data.orderList[i].btn1 = '付款'
             this.data.orderList[i].btn2 = '取消订单'
             break
           case 2:
             this.data.orderList[i].btn1 = '收货'
-            this.data.orderList[i].btn2 = '取消订单'
+            this.data.orderList[i].btn2 = '退款'
             break
           case 3:
             this.data.orderList[i].btn1 = '评价'
@@ -284,7 +295,7 @@ Page({
             this.data.orderList[i].btn2 = '投诉'
             break
           case 5:
-            this.data.orderList[i].btn1 = ''
+            this.data.orderList[i].btn1 = '已退款'
             this.data.orderList[i].btn2 = ''
             break
         }
@@ -296,13 +307,17 @@ Page({
       console.log("not customer", this.data.orderList)
       for (let i = 0; i < this.data.orderList.length; i++) {
         switch (this.data.orderList[i].state) {
+          case 0:
+            this.data.orderList[i].btn1 = '已取消'
+            this.data.orderList[i].btn2 = ''
+            break
           case 1:
             this.data.orderList[i].btn1 = '提醒付款'
             this.data.orderList[i].btn2 = '取消订单'
             break
           case 2:
             this.data.orderList[i].btn1 = '提醒收货'
-            this.data.orderList[i].btn2 = '投诉'
+            this.data.orderList[i].btn2 = '退款'
             break
           case 3:
             this.data.orderList[i].btn1 = '提醒评价'
@@ -313,7 +328,7 @@ Page({
             this.data.orderList[i].btn2 = '投诉'
             break
           case 5:
-            this.data.orderList[i].btn1 = ''
+            this.data.orderList[i].btn1 = '已退款'
             this.data.orderList[i].btn2 = ''
             break
         }
@@ -340,17 +355,97 @@ Page({
     this.refreshList(this.data.curTab);
   },
   btn1Tap(e) {
+    let app = getApp()
+    let that = this
     console.log("btn1tap", e.currentTarget.dataset.order.state)
+    if (e.currentTarget.dataset.order.state == 1) {
+      wx.navigateTo({
+        url: `/pages/payment/payment?transactionID=${e.currentTarget.dataset.order.transaction_id}`,
+      })
+    } else if (e.currentTarget.dataset.order.state == 2) {
+      wx.request({
+        url: app.globalData.URL + '/trans/confirm',
+        method: "POST",
+        timeout: 500,
+        header: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        data: {
+          token: app.globalData.session_key,
+          transId: e.currentTarget.dataset.order.transaction_id
+        },
+        success: (res) => {
+          console.log("cancel", res.data.code)
+          if (res.data.code == 'success') {
+            Toast({
+              context: this,
+              selector: '#order-t-toast',
+              message: "收货成功",
+              theme: 'success',
+            });
+            wx.navigateBack()
+          } else {
+            Toast({
+              context: this,
+              selector: '#order-t-toast',
+              message: "收货失败",
+              theme: 'fail',
+            });
+          }
+        }
+      })
+    }
   },
   btn2Tap(e) {
     console.log("btn2tap", e.currentTarget.dataset.order.state)
+    let app = getApp()
+    let that = this
+    if (e.currentTarget.dataset.order.state == 2) {
+      wx.request({
+        url: app.globalData.URL + '/trans/refund',
+        method: "POST",
+        timeout: 500,
+        header: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        data: {
+          token: app.globalData.session_key,
+          transId: e.currentTarget.dataset.order.transaction_id
+        },
+        success: (res) => {
+          console.log("cancel", res.data.code)
+          if (res.data.code == 'success') {
+            Toast({
+              context: this,
+              selector: '#order-t-toast',
+              message: "退款成功",
+              theme: 'success',
+            });
+            wx.navigateBack()
+          } else {
+            Toast({
+              context: this,
+              selector: '#order-t-toast',
+              message: "退款失败",
+              theme: 'fail',
+            });
+          }
+        }
+      })
+    }
   },
 
   onOrderCardTap(e) {
-    const {
-      order
-    } = e.currentTarget.dataset;
-    console.log("card tap", e.currentTarget.dataset)
+    if (e.currentTarget.dataset.order.state == 1) {
+      wx.navigateTo({
+        url: `/pages/payment/payment?transactionID=${e.currentTarget.dataset.order.transaction_id}`,
+      })
+    } else if (e.currentTarget.dataset.order.state == 3) {
+      wx.navigateTo({
+        url: `/pages/comment/comment?transactionID=${e.currentTarget.dataset.order.transaction_id}`,
+      })
+    }
+
     // wx.navigateTo({
     //   url: `/pages/order/order-detail/index?orderNo=${order.orderNo}`,
     // });
