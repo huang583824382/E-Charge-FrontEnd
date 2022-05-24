@@ -5,7 +5,7 @@
 </view>
 <view class="home-page-header">
   <view class="search">
-    <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" placeholder="搜搜自己感兴趣的东西吧！" leftIcon="" rightIcon="close" action="搜索" bind:tap="onClickSearch">
+    <t-search t-class-input="t-search__input" id="home-search" t-class-input-container="t-search__input-container" placeholder="搜搜自己感兴趣的东西吧！" leftIcon="" action="搜索" rightIcon="close" bind:action-click="onClickSearch" focus>
       <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
     </t-search>
 
@@ -35,7 +35,7 @@
     </t-tab-panel>
   </t-tabs>
   <load-more list-is-empty="{{!list[tabIndex].length}}" status="{{listLoadStatus[tabIndex]}}" bind:retry="onReTry" />
-  <t-toast id="t-toast" />
+  <t-toast id="home-t-toast" />
   <!-- <view class="float-button">
     <t-icon class="float-button-icon" name="chat" bind:click="handleClick" />
   </view> -->

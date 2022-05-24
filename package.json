@@ -1,7 +1,7 @@
 {
   "name": "supermarket-pages",
   "version": "1.0.0",
-  "description": "",
+  "description": "Project of ZJU Software Engineering, 2022",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -34,5 +34,13 @@
     "husky": "^4.3.0",
     "lint-staged": "^10.0.8",
     "prettier": "^2.1.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huang583824382/WeiXinProject-FrontEnd.git"
+  },
+  "bugs": {
+    "url": "https://github.com/huang583824382/WeiXinProject-FrontEnd/issues"
+  },
+  "homepage": "https://github.com/huang583824382/WeiXinProject-FrontEnd#readme"
 }

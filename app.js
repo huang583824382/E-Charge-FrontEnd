@@ -13,8 +13,8 @@ App({
     session_key: '',
     uid: null,
     loginPromise: null,
-    URL: 'http://localhost:8080',
-    IMG_SERVER: 'http://localhost:8080/img'
+    URL: 'https://localhost:8081',
+    IMG_SERVER: 'https://localhost:8081/img'
   },
   onLaunch: function () {
     this.getSession()

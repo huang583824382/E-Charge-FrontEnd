@@ -1,9 +1,9 @@
 // import {
 //   fetchHome
 // } from '../../services/home/home';
-import {
-  fetchGoodsList
-} from '../../services/good/fetchGoods';
+// import {
+//   fetchGoodsList
+// } from '../../services/good/fetchGoods';
 import Toast from 'tdesign-miniprogram/toast/index';
 
 Page({
@@ -122,6 +122,41 @@ Page({
     this.loadGoodsList();
   },
 
+  async fetchGoodsList(type = 0, pageSize = 20) {
+    console.log(type);
+    // if (config.useMock) {
+    //   return mockFetchGoodsList(pageIndex, pageSize);
+    // }
+    return new Promise((resolve, reject) => {
+      console.log(getApp().globalData.session_key);
+      // 根据类型决定目标url
+      var url = getApp().globalData.URL + (type === 0 ? "/list/goods" : "/list/tasks");
+      wx.request({
+        url: url,
+        method: "POST",
+        header: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        data: {
+          token: getApp().globalData.session_key, // token
+          size: pageSize, // 商品/任务数量
+        },
+        success: (res) => {
+          if (res.statusCode === 200) {
+            console.log(res)
+            if (res.data.length === 0) {
+              reject();
+            } else {
+              resolve(res.data);
+            }
+          } else {
+            reject();
+          }
+        }
+      });
+    });
+  },
+
   // 异步获取并加载列表
   async loadGoodsList(fresh = false) {
     if (fresh) {
@@ -141,7 +176,7 @@ Page({
 
     // 获取列表
     try {
-      const nextList = await fetchGoodsList(this.data.tabIndex, pageSize, "");
+      const nextList = await this.fetchGoodsList(this.data.tabIndex, pageSize);
       var newList = this.data.list;
       // 处理数据格式
       if (this.data.tabIndex === 0) {
@@ -183,6 +218,16 @@ Page({
     });
   },
 
+  // 提示信息
+  showInfo(suc, msg) {
+    Toast({
+      context: this,
+      selector: '#home-t-toast',
+      message: msg,
+      theme: suc ? 'success' : 'fail',
+    });
+  },
+
   // 点击进入商品详情页
   listClickHandle(e) {
     // const {
@@ -212,9 +257,18 @@ Page({
   //   });
   // },
 
-  // TODO: 点击搜索，更改列表
+  // 点击搜索，前往结果页
   onClickSearch(e) {
-    console.log(123);
+    const comp = this.selectComponent('#home-search').__data__;
+    const search = comp.value;
+    const type = this.data.tabIndex
+    if (search.length !== 0) {
+      wx.navigateTo({
+        url: `/pages/goods/result/index?searchValue=${search}&type=${type}`,
+      })
+    } else {
+      this.showInfo(false, '请输入关键词');
+    }
   }
 
   // goodListAddCartHandle() {

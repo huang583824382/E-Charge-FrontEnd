@@ -18,7 +18,7 @@
 // }
 
 /** 获取商品或任务列表 */
-export function fetchGoodsList(type = 0, pageSize = 20, search = "") {
+export function fetchGoodsList(type = 0, pageSize = 20) {
   console.log(type);
   // if (config.useMock) {
   //   return mockFetchGoodsList(pageIndex, pageSize);
@@ -36,7 +36,7 @@ export function fetchGoodsList(type = 0, pageSize = 20, search = "") {
       data: {
         token: getApp().globalData.session_key, // token
         size: pageSize, // 商品/任务数量
-        search: search, // 检索信息
+        search: "", // 无搜索关键词
       },
       success: (res) => {
         if (res.statusCode === 200) {
