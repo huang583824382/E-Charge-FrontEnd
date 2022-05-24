@@ -130,6 +130,9 @@ Page({
     console.log("onloadhere")
     // wx.tim.on(wx.TIM.EVENT.SDK_READY, this.getConversationList)
     wx.tim.on(wx.TIM.EVENT.CONVERSATION_LIST_UPDATED, this.getConversationList);
+  },
+  onShow() {
+    console.log("message-list onshow")
     this.getConversationList()
-  }
+  },
 });

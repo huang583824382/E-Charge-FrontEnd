@@ -31,6 +31,7 @@ Component({
     },
 
     onClickTop() {
+      console.log("onClick Top")
       this.triggerEvent('onClickTop', {});
     },
   },

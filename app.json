@@ -33,7 +33,8 @@
     "pages/order/invoice/index",
     "pages/usercenter/name-edit/index",
     "pages/publish/publish",
-    "pages/message-list/index"
+    "pages/message-list/index",
+    "pages/comment/comment"
   ],
   "tabBar": {
     "custom": true,

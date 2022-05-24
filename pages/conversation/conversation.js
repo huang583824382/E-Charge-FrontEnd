@@ -33,6 +33,10 @@ Page({
   onLoad() {
     // 登入后拉去会话列表
     wx.tim.on(wx.TIM.EVENT.CONVERSATION_LIST_UPDATED, this.onConversationListUpdated, this);
+
+  },
+  onShow() {
+    console.log("conversation onshow")
     this.getConversationList();
   },
   /**

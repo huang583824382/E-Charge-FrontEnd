@@ -84,10 +84,13 @@ Component({
 
   lifetimes: {
     ready() {
-      const { hidden } = this.properties;
+      const {
+        hidden
+      } = this.properties;
       if (hidden !== null) {
         this.setHidden(!!hidden);
       }
+      console.log(this.data)
     },
   },
 
@@ -96,7 +99,9 @@ Component({
       this.setData({
         'specsPopup.show': false,
       });
-      this.triggerEvent('specsclose', { good: this.properties.data });
+      this.triggerEvent('specsclose', {
+        good: this.properties.data
+      });
     },
 
     removeSpecsPopup() {
@@ -126,7 +131,9 @@ Component({
     },
 
     setHidden(hidden) {
-      this.setData({ hiddenInData: !!hidden });
+      this.setData({
+        hiddenInData: !!hidden
+      });
     },
   },
 });

@@ -26,18 +26,23 @@ Page({
         info: ''
       },
       {
-        key: OrderStatus.PENDING_DELIVERY,
+        key: OrderStatus.PENDING_RECEIPT,
         text: '待收货',
         info: ''
       },
       {
-        key: OrderStatus.PENDING_RECEIPT,
+        key: OrderStatus.COMMENT,
         text: '待评价',
         info: ''
       },
       {
         key: OrderStatus.COMPLETE,
         text: '已完成',
+        info: ''
+      },
+      {
+        key: OrderStatus.REFUND,
+        text: '退货',
         info: ''
       },
     ],
@@ -52,6 +57,11 @@ Page({
 
   onLoad(query) {
     let status = parseInt(query.status);
+    let customer = parseInt(query.customer)
+    console.log("in order-list", status, customer)
+    this.setData({
+      isCustomer: customer
+    })
     status = this.data.tabs.map((t) => t.key).includes(status) ? status : -1;
     this.init(status);
     this.pullDownRefresh = this.selectComponent('#wr-pull-down-refresh');
@@ -79,25 +89,12 @@ Page({
     const {
       callback
     } = e.detail;
-    this.setData({
-      pullDownRefreshing: true
-    });
+
     this.refreshList(this.data.curTab)
-      .then(() => {
-        this.setData({
-          pullDownRefreshing: false
-        });
-        callback && callback();
-      })
-      .catch((err) => {
-        this.setData({
-          pullDownRefreshing: false
-        });
-        Promise.reject(err);
-      });
   },
 
   init(status) {
+    console.log("status", status)
     status = status !== undefined ? status : this.data.curTab;
     this.setData({
       status,
@@ -166,6 +163,7 @@ Page({
             orderList: this.data.orderList.concat(orderList),
             listLoading: orderList.length > 0 ? 0 : 2,
           });
+          console.log("orderList", this.data.orderList)
         });
       })
       .catch((err) => {
@@ -175,7 +173,13 @@ Page({
         return Promise.reject(err);
       });
   },
+  onReachBottom() {
+    if (this.data.orderList.length > 0) {
+      this.refreshList(this.data.curTab, this.data.orderList[this.data.orderList.length - 1].transaction_id)
+    }
 
+
+  },
   onReTryLoad() {
     this.getOrderList(this.data.curTab);
   },
@@ -208,32 +212,147 @@ Page({
     });
   },
 
-  refreshList(status = -1) {
+  refreshList(status = -1, lastIndex = 0) {
+    this.setData({
+      pullDownRefreshing: true
+    });
+    let that = this
+    var app = getApp()
     this.page = {
       size: this.page.size,
       num: 1,
     };
-    this.setData({
-      curTab: status,
-      orderList: []
-    });
+    if (lastIndex == 0) {
+      this.setData({
+        curTab: status,
+        orderList: []
+      });
+    } else {
+      this.setData({
+        curTab: status,
+      });
+    }
+    return wx.request({
+      url: app.globalData.URL + '/trans/list',
+      method: 'POST',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        'token': app.globalData.session_key,
+        lastIndex: lastIndex,
+        state: status,
+        isCustomer: this.data.isCustomer
+      },
+      success: (res) => {
+        console.log("/trans/list", res)
+        that.setData({
+          orderList: that.data.orderList.concat(res.data),
+        })
+        this.addBtnInfo()
+        console.log(this.data.orderList)
+      }
+    })
 
-    return Promise.all([
-      this.getOrderList(status, true),
-      this.getOrdersCount(),
-    ]);
+
+
+    // return Promise.all([
+    //   this.getOrderList(status, true),
+    //   this.getOrdersCount(),
+    // ]);
+  },
+
+  addBtnInfo() {
+    if (this.data.isCustomer == 1) {
+      console.log("addBtnInfo customer", this.data.orderList)
+      for (let i = 0; i < this.data.orderList.length; i++) {
+        switch (this.data.orderList[i].state) {
+          case 1:
+            this.data.orderList[i].btn1 = '付款'
+            this.data.orderList[i].btn2 = '取消订单'
+            break
+          case 2:
+            this.data.orderList[i].btn1 = '收货'
+            this.data.orderList[i].btn2 = '取消订单'
+            break
+          case 3:
+            this.data.orderList[i].btn1 = '评价'
+            this.data.orderList[i].btn2 = '投诉'
+            break
+          case 4:
+            this.data.orderList[i].btn1 = '已完成'
+            this.data.orderList[i].btn2 = '投诉'
+            break
+          case 5:
+            this.data.orderList[i].btn1 = ''
+            this.data.orderList[i].btn2 = ''
+            break
+        }
+        this.setData({
+          orderList: this.data.orderList
+        })
+      }
+    } else {
+      console.log("not customer", this.data.orderList)
+      for (let i = 0; i < this.data.orderList.length; i++) {
+        switch (this.data.orderList[i].state) {
+          case 1:
+            this.data.orderList[i].btn1 = '提醒付款'
+            this.data.orderList[i].btn2 = '取消订单'
+            break
+          case 2:
+            this.data.orderList[i].btn1 = '提醒收货'
+            this.data.orderList[i].btn2 = '投诉'
+            break
+          case 3:
+            this.data.orderList[i].btn1 = '提醒评价'
+            this.data.orderList[i].btn2 = '投诉'
+            break
+          case 4:
+            this.data.orderList[i].btn1 = '已完成'
+            this.data.orderList[i].btn2 = '投诉'
+            break
+          case 5:
+            this.data.orderList[i].btn1 = ''
+            this.data.orderList[i].btn2 = ''
+            break
+        }
+        this.setData({
+          orderList: this.data.orderList
+        })
+      }
+    }
+
+    // let that = this
+    // let tmpdata = this.data.orderList
+    // for (var item in tmpdata) {
+    //   console.log("in for", item)
+    //   // let tmpState = tmpdata[i].state
+
+    // }
+    // this.setData({
+    //   orderList: tmpdata
+    // })
+    // console.log("finish add btn", that.data.orderList)
   },
 
   onRefresh() {
     this.refreshList(this.data.curTab);
+  },
+  btn1Tap(e) {
+    console.log("btn1tap", e.currentTarget.dataset.order.state)
+  },
+  btn2Tap(e) {
+    console.log("btn2tap", e.currentTarget.dataset.order.state)
   },
 
   onOrderCardTap(e) {
     const {
       order
     } = e.currentTarget.dataset;
-    wx.navigateTo({
-      url: `/pages/order/order-detail/index?orderNo=${order.orderNo}`,
-    });
+    console.log("card tap", e.currentTarget.dataset)
+    // wx.navigateTo({
+    //   url: `/pages/order/order-detail/index?orderNo=${order.orderNo}`,
+    // });
   },
 });

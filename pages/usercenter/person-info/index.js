@@ -1,5 +1,9 @@
-import { fetchPerson } from '../../../services/usercenter/fetchPerson';
-import { phoneEncryption } from '../../../utils/util';
+import {
+  fetchPerson
+} from '../../../services/usercenter/fetchPerson';
+import {
+  phoneEncryption
+} from '../../../utils/util';
 import Toast from 'tdesign-miniprogram/toast/index';
 
 Page({
@@ -11,8 +15,7 @@ Page({
       phoneNumber: '',
     },
     showUnbindConfirm: false,
-    pickerOptions: [
-      {
+    pickerOptions: [{
         name: '男',
         code: '1',
       },
@@ -24,23 +27,15 @@ Page({
     typeVisible: false,
     genderMap: ['', '男', '女'],
   },
-  onLoad() {
-    this.init();
-  },
-  init() {
-    this.fetchData();
-  },
-  fetchData() {
-    fetchPerson().then((personInfo) => {
-      this.setData({
-        personInfo,
-        'personInfo.phoneNumber': phoneEncryption(personInfo.phoneNumber),
-      });
-    });
-  },
-  onClickCell({ currentTarget }) {
-    const { dataset } = currentTarget;
-    const { nickName } = this.data.personInfo;
+  onClickCell({
+    currentTarget
+  }) {
+    const {
+      dataset
+    } = currentTarget;
+    const {
+      nickName
+    } = this.data.personInfo;
 
     switch (dataset.type) {
       case 'gender':
@@ -67,9 +62,10 @@ Page({
     });
   },
   onConfirm(e) {
-    const { value } = e.detail;
-    this.setData(
-      {
+    const {
+      value
+    } = e.detail;
+    this.setData({
         typeVisible: false,
         'personInfo.gender': value,
       },
@@ -91,11 +87,16 @@ Page({
           sizeType: ['compressed'],
           sourceType: ['album', 'camera'],
           success: (res) => {
-            const { path, size } = res.tempFiles[0];
+            const {
+              path,
+              size
+            } = res.tempFiles[0];
             if (size <= 10485760) {
               resolve(path);
             } else {
-              reject({ errMsg: '图片大小超出限制，请重新上传' });
+              reject({
+                errMsg: '图片大小超出限制，请重新上传'
+              });
             }
           },
           fail: (err) => reject(err),
@@ -118,5 +119,34 @@ Page({
         theme: 'fail',
       });
     }
+  },
+  onShow: function () {
+    var that = this;
+    const app = getApp();
+    console.log("get user info", app.globalData.uid)
+    wx.request({
+      url: app.globalData.URL + '/user/info',
+      method: 'POST',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        'uid': app.globalData.uid
+      },
+      success: function (res) {
+        console.log(res)
+        var ret_name = res.data.name;
+        var ret_gender = res.data.gender;
+        var ret_phone = res.data.phone;
+        var ret_iconUrl = res.data.iconUrl
+        that.setData({
+          'personInfo.nickName': ret_name,
+          'personInfo.gender': ret_gender,
+          'personInfo.phoneNumber': ret_phone,
+          'personInfo.avatarUrl': ret_iconUrl,
+          currAuthStep: 3
+        });
+      }
+    })
   },
 });

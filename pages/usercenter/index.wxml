@@ -1,10 +1,10 @@
 <t-user-center-card userInfo="{{userInfo}}" isPhoneHide="{{true}}" name-class="custom-name-class" phone-class="custom-phone-class" avatar-class="custome-avatar-class" currAuthStep="{{currAuthStep}}" bind:gotoUserEditPage="gotoUserEditPage" />
 <view class="content-wrapper">
 	<view class='order-group-wrapper'>
-		<t-order-group orderTagInfos="{{orderTagInfos}}" bind:onClickTop="jumpAllOrder" bind:onClickItem="jumpNav" />
+		<t-order-group orderTagInfos="{{orderTagInfos}}" bind:onClickTop="jumpAllOrderCustomer" bind:onClickItem="jumpNav" />
 	</view>
 	<view class='order-group-wrapper'>
-		<t-pub-group orderTagInfos="{{pubTagInfos}}" bind:onClickTop="jumpAllOrder" bind:onClickItem="jumpNav" />
+		<t-pub-group orderTagInfos="{{pubTagInfos}}" bind:onClickTop="jumpAllOrderNotCustomer" bind:onClickItem="jumpNav" />
 	</view>
 	<view wx:for="{{menuData}}" wx:key="item" class="cell-box">
 		<t-cell-group>

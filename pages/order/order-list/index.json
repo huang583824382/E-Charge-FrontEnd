@@ -2,6 +2,7 @@
   "navigationBarTitleText": "我的订单",
   "usingComponents": {
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
+    "t-button": "tdesign-miniprogram/button/button",
     "t-tab-panel": "tdesign-miniprogram/tabs/tab-panel",
     "t-empty": "tdesign-miniprogram/empty/empty",
     "t-toast": "tdesign-miniprogram/toast/toast",
@@ -11,6 +12,8 @@
     "order-button-bar": "../components/order-button-bar/index",
     "price": "/components/price/index",
     "order-card": "../components/order-card/index",
-    "specs-goods-card": "../components/specs-goods-card/index"
+    "specs-goods-card": "../components/specs-goods-card/index",
+    "t-image": "/components/webp-image/index",
+    "t-icon": "tdesign-miniprogram/icon/icon"
   }
 }
