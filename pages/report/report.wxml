@@ -1,0 +1,56 @@
+<view class="report-container">
+  <view class="divider-line" />
+  <view class="divider-line" />
+  <view class="divider-line" />
+
+  <view class="card-wrapper">
+    <!-- 用户信息 -->
+    <view wx:if="{{isUser}}" class="goods-card-container">
+      <t-user-center-card userInfo="{{userInfo}}" isPhoneHide="{{true}}" name-class="custom-name-class" phone-class="custom-phone-class" avatar-class="custome-avatar-class" currAuthStep="{{3}}" />
+    </view>
+    <!-- 发布项信息 -->
+    <view wx:if="{{!isUser}}" class="goods-card-container">
+      <view wx:if="{{itemInfo.figureUrls !== ''}}" class="goods-card-image">
+        <t-image t-class="image-style" src="{{itemInfo.figureUrls}}" mode="aspectFill"></t-image>
+      </view>
+      <view class="goods-card-content">
+        <view class="goods-card-title">
+          <view>
+            {{itemInfo.title}} ；
+          </view>
+          <text>\n</text>
+          <!-- <view wx:if="{{itemInfo.figureUrls === '' && itemInfo.type === 1}}">
+            描述：{{itemInfo.description}}
+          </view> -->
+        </view>
+        <view class="goods-card-price">
+          ￥{{itemInfo.price}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="divider-line" />
+  <view class="form-address">
+    <form class="form-content">
+      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-textarea-cell-note" title="举报理由">
+        <t-textarea slot="note" class="t-input" type="text" value="{{reason}}" maxlength="100" placeholder="请在这里填写详细的举报理由" t-class-placeholder="placeholder" t-class-textarea="t-textarea" bind:change="onInputValue" data-item="detailAddress" />
+      </t-cell>
+
+      <view class="divider-line" />
+
+      <view class="upload-wrapper">
+        <t-upload mediaType="{{['video','image']}}" files="{{imageFiles}}" bind:remove="handleRemove_goods" bind:success="handleSuccess_goods" gridConfig="{{gridConfig}}">
+          <t-icon slot="addContent" name="add" size="40rpx" color="rgba(0,0,0,0.26)" />
+        </t-upload>
+      </view>
+    </form>
+  </view>
+  <t-divider />
+
+  <view class="submit">
+    <t-button t-class="btn-submit-goods theme-wrapper-class" bind:tap="formSubmit">
+      提交举报
+    </t-button>
+  </view>
+</view>

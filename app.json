@@ -35,7 +35,8 @@
     "pages/publish/publish",
     "pages/message-list/index",
     "pages/comment/comment",
-    "pages/payment/payment"
+    "pages/payment/payment",
+    "pages/report/report"
   ],
   "tabBar": {
     "custom": true,

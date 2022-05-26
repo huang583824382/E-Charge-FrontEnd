@@ -1,5 +1,5 @@
 <view class="result-container">
-  <t-search t-class="t-search" t-class-input-container="t-class__input-container" t-class-left="t-search__left-icon" t-class-input="t-search__input" id="result-search"  value="{{keywords}}" leftIcon="" rightIcon="" action="搜索" placeholder="iPhone12pro" bind:action-click="handleSubmit">
+  <t-search t-class="t-search" t-class-input-container="t-class__input-container" t-class-left="t-search__left-icon" t-class-input="t-search__input" id="result-search" value="{{keywords}}" leftIcon="" rightIcon="" action="搜索" placeholder="iPhone12pro" bind:action-click="handleSubmit">
     <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
     <t-icon slot="right-icon" prefix="wr" name="clear_filled" size="40rpx" color="#bbb" />
   </t-search>
@@ -18,8 +18,11 @@
   <view class="empty-wrap" wx:if="{{goodsList.length === 0 && hasLoaded}}">
     <t-empty t-class="empty-tips" size="240rpx" description="暂无相关商品" />
   </view>
-  <view class="category-goods-list" wx:if="{{goodsList.length}}">
+  <view class="category-goods-list" wx:if="{{goodsList.length > 0 && type == 0}}">
     <goods-list wr-class="wr-goods-list" goodsList="{{goodsList}}" bind:click="gotoGoodsDetail" bind:addcart="handleAddCart" />
+  </view>
+  <view class="category-goods-list" wx:if="{{goodsList.length > 0 && type == 1}}">
+    <tasks-list wr-class="wr-goods-list" tasksList="{{goodsList}}" bind:click="gotoGoodsDetail" bind:addcart="handleAddCart" />
   </view>
   <load-more wx:if="{{goodsList.length > 0}}" status="{{loadMoreStatus}}" no-more-text="没有更多了" />
 </view>

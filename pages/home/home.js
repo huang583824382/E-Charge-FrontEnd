@@ -144,7 +144,7 @@ Page({
         success: (res) => {
           if (res.statusCode === 200) {
             console.log(res)
-            if (res.data.length === 0) {
+            if (res.data.list.length === 0) {
               reject();
             } else {
               resolve(res.data);
@@ -176,18 +176,23 @@ Page({
 
     // 获取列表
     try {
-      const nextList = await this.fetchGoodsList(this.data.tabIndex, pageSize);
+      const res = await this.fetchGoodsList(this.data.tabIndex, pageSize);
       var newList = this.data.list;
       // 处理数据格式
-      if (this.data.tabIndex === 0) {
-        nextList.forEach((element, index) => {
-          //console.log(element);
-          //element.figureUrls = "";
-          console.log(getApp().globalData.IMG_SERVER + "/NoPic.jpg");
-          element.thumb = (element.figureUrls === "") ? (getApp().globalData.IMG_SERVER + "/NoPic.jpg") : element.figureUrls.split(";")[0];
-          element.images = element.figureUrls.split(";");
-        });
-      }
+      var nextList = res.list;
+      var uList = res.pubUser;
+      nextList.forEach((element, index) => {
+        if (this.data.tabIndex === 0) {
+          element.thumb = (element.figureUrls === "") ? (getApp().globalData.IMG_SERVER + "/NoPic.jpg") : element.figureUrls;
+        } else {
+          element.thumb = element.figureUrls;
+          element.userIconUrl = uList[index].iconUrl;
+          element.uname = uList[index].name;
+        }
+        element.images = element.figureUrls.split(";");
+      });
+      console.log(nextList);
+
       // 更新数据和加载状态
       newList[this.data.tabIndex] = fresh ? nextList :
         this.data.list[this.data.tabIndex].concat(nextList);
@@ -238,7 +243,9 @@ Page({
     //   spuId
     // } = this.data.list[this.data.tabIndex][index].itemId;
 
-    const spuId = e.detail.goods.itemId;
+    console.log(e);
+
+    const spuId = (this.data.tabIndex == 0) ? e.detail.goods.itemId : e.detail.tasks.itemId;
 
     wx.navigateTo({
       url: `/pages/goods/details/index?spuId=${spuId}`,

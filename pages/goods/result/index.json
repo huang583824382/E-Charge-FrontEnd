@@ -5,11 +5,12 @@
     "t-input": "tdesign-miniprogram/input/input",
     "t-empty": "tdesign-miniprogram/empty/empty",
     "t-toast": "tdesign-miniprogram/toast/toast",
+    "t-icon": "tdesign-miniprogram/icon/icon",
     "goods-list": "/components/goods-list/index",
+    "tasks-list": "/components/tasks-list/index",
     "filter": "/components/filter/index",
     "filter-popup": "/components/filter-popup/index",
-    "load-more": "/components/load-more/index",
-    "t-icon": "tdesign-miniprogram/icon/icon"
+    "load-more": "/components/load-more/index"
   },
   "onReachBottomDistance": 50
 }

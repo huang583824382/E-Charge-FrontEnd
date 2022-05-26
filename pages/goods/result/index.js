@@ -179,7 +179,8 @@ Page({
       if (code.toUpperCase() === 'SUCCESS') {
         const {
           list,
-          totalCount = 0
+          totalCount = 0,
+          pubUser
         } = data;
         console.log(list);
         if (totalCount === 0 && reset) {
@@ -198,16 +199,16 @@ Page({
 
         // 处理数据格式
         var nextList = list;
-        if (this.data.type == 0) {
-          console.log(666);
-          nextList.forEach((element, index) => {
-            //console.log(element);
-            //element.figureUrls = "";
-            console.log(getApp().globalData.IMG_SERVER + "/NoPic.jpg");
-            element.thumb = (element.figureUrls === "") ? (getApp().globalData.IMG_SERVER + "/NoPic.jpg") : element.figureUrls.split(";")[0];
-            element.images = element.figureUrls.split(";");
-          });
-        }
+        nextList.forEach((element, index) => {
+          if (this.data.type == 0) {
+            element.thumb = (element.figureUrls === "") ? (getApp().globalData.IMG_SERVER + "/NoPic.jpg") : element.figureUrls;
+          } else {
+            element.thumb = element.figureUrls;
+            element.userIconUrl = pubUser[index].iconUrl;
+            element.uname = pubUser[index].name;
+          }
+          element.images = element.figureUrls.split(";");
+        });
 
         const _goodsList = reset ? nextList : goodsList.concat(nextList);
         // _goodsList.forEach((v) => {
