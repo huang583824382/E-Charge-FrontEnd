@@ -173,6 +173,11 @@ Component({
         displayFlag: targetFlag,
       });
     },
+    onEmojiVisibleChange() {
+      this.setData({
+        displayFlag: '',
+      });
+    },
     // 选自定义消息
     handleExtensions() {
       // let targetFlag = 'extension';
@@ -280,6 +285,7 @@ Component({
       this.setData({
         message: this.data.message + e.detail.message,
         sendMessageBtn: true,
+        displayFlag: ''
       });
     },
     getToAccount() {
@@ -394,14 +400,14 @@ Component({
     },
 
     $sendTIMMessage(message) {
-      this.triggerEvent('sendMessage', {
-        message,
-      });
       wx.tim.sendMessage(message, {
         offlinePushInfo: {
           disablePush: true,
         },
       }).then((res) => {
+        this.triggerEvent('sendMessage', {
+          message,
+        });
         //   if(this.data.firstSendMessage) {
         // 	//wx.aegis.reportEvent({
         // 	// 	    name: 'sendMessage',

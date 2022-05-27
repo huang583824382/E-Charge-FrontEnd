@@ -9,8 +9,8 @@
   <view wx:if="{{isEmpty}}">没有更多消息了~</view>
   <view class="conversation-list-area">
     <scroll-view class="scoll-view" scroll-y="true">
-      <view wx:for="{{conversationList}}">
-        <TUI-conversation-item wx:if="{{item.filter}}" wx:key="index" id="{{item.conversationID}}" data-index="{{index}}" conversation="{{item}}" bindtap="handleRoute" bind:transCheckID="transCheckID" charge="{{transChenckID===item.conversationID}}"></TUI-conversation-item>
+      <view wx:for="{{conversationList}}" wx:key="index">
+        <TUI-conversation-item wx:key="index" id="{{item.conversationID}}" data-index="{{index}}" conversation="{{item}}" bindtap="handleRoute" bind:transCheckID="transCheckID" charge="{{transChenckID===item.conversationID}}"></TUI-conversation-item>
       </view>
     </scroll-view>
   </view>

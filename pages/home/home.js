@@ -8,6 +8,7 @@ import Toast from 'tdesign-miniprogram/toast/index';
 
 Page({
   data: {
+    unreadNum: 0,
     // imgSrcs: [],
     // tabList: [],
     list: [
@@ -52,6 +53,22 @@ Page({
 
   onLoad() {
     this.init();
+    wx.tim.on(wx.TIM.EVENT.CONVERSATION_LIST_UPDATED, this.getUnread);
+  },
+
+  onUnload() {
+    wx.tim.off(wx.TIM.EVENT.CONVERSATION_LIST_UPDATED, this.getUnread);
+  },
+
+  getUnread(event) {
+    var unread = 0
+    for (var i = 0; i < event.data.length; i++) {
+      unread += event.data[i].unreadCount
+    }
+    this.setData({
+      unreadNum: unread
+    })
+    console.log("get unread")
   },
 
   // 到达页底，获取新一批商品/任务

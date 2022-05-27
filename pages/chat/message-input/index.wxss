@@ -16,6 +16,17 @@
   align-items: center;
 }
 
+.emoji-space-wrapper {
+  width: 100vw;
+  height: 230px;
+  border-top-left-radius: 16rpx;
+  border-top-right-radius: 16rpx;
+  background: #fff;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
 .TUI-message-input {
   display: flex;
   /* padding-bottom: 16rpx; */

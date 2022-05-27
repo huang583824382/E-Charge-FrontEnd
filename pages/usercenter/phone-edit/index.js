@@ -1,14 +1,14 @@
-import Toast from 'tdesign-miniprogram/toast/index';
+import Toast from 'tdesign-miniprogram/toast';
 Page({
   data: {
     nameValue: '',
   },
   onLoad(options) {
     const {
-      name
+      phone
     } = options;
     this.setData({
-      nameValue: name,
+      phoneValue: phone,
     });
   },
   onSubmit() {
@@ -19,10 +19,10 @@ Page({
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      url: app.globalData.URL + "/user/editName",
+      url: app.globalData.URL + "/user/editPhone",
       data: {
         token: app.globalData.session_key,
-        name: that.data.nameValue
+        phone: that.data.phoneValue
       },
       success: (res) => {
         console.log(res)
@@ -34,11 +34,6 @@ Page({
             message: '修改成功',
             theme: 'success',
           });
-          wx.tim.updateMyProfile({
-            nick: res.data.name,
-          }).then(function (imResponse) {
-            console.log("更新资料成功", imResponse.data); // 
-          })
           wx.navigateBack({
             backRefresh: true
           });

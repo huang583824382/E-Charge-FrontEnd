@@ -261,6 +261,9 @@ Page({
           icon: '',
           duration: 1000,
         });
+        wx.navigateTo({
+          url: `/pages/personHome/personHome?uid=${20}`,
+        })
         break;
       }
       case 'point': {

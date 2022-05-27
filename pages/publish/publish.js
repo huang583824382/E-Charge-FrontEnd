@@ -82,6 +82,16 @@ Page({
   onGoodsTitle() {
 
   },
+  getUnread(event) {
+    var unread = 0
+    for (var i = 0; i < event.data.length; i++) {
+      unread += event.data[i].unreadCount
+    }
+    this.setData({
+      unreadNum: unread
+    })
+    console.log("get unread")
+  },
   formSubmit() {
     const {
       submitActive_goods
@@ -146,6 +156,16 @@ Page({
     });
   },
 
+  // 进入会话界面
+  enterChatRoom() {
+    console.log("enter chat room");
+    // wx.navigateTo({
+    //   url: `/pages/message-list/index`
+    // });
+    wx.navigateTo({
+      url: '/pages/conversation/conversation'
+    })
+  },
 
   onPicker1Confirm(e) {
     console.log('picker1 confirm:', e.detail);
@@ -158,7 +178,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    wx.tim.on(wx.TIM.EVENT.CONVERSATION_LIST_UPDATED, this.getUnread);
   },
 
   /**
@@ -186,7 +206,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload() {
-
+    wx.tim.off(wx.TIM.EVENT.CONVERSATION_LIST_UPDATED, this.getUnread);
   },
 
   /**

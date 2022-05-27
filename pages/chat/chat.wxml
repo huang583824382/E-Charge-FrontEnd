@@ -1,24 +1,26 @@
 <view class="container" style="height: {{height}}px">
   <scroll-view refresher-triggered="{{triggered}}" refresher-enabled="{{true}}" bindrefresherrefresh="refresh" scroll-y='true' scroll-into-view="{{desMessage}}" class="chat-content" style="height: {{chatHeight}}px">
-
     <view>
-      <view id="{{'ID'+item.ID}}" wx:for="{{messageList}}" wx:key="{{index}}" data-index="{{index}}">
+      <view id="{{'ID'+item.ID}}" wx:for="{{messageList}}" data-index="{{index}}">
         <view class="chat-content-list-time" wx:if="{{item.showTime}}">{{item.TimeContent}}</view>
         <view class='chat-content-list {{item.flow == "in" ? "" : "right"}}'>
-          <image class="chat-content-list-avatar " src="{{item.avatar==''?'https://sdk-web-1252463788.cos.ap-hongkong.myqcloud.com/component/TUIKit/assets/avatar_21.png':item.avatar}}"></image>
+          <image bindtap="enterPersonPage" class="chat-content-list-avatar " src="{{item.avatar==''?'https://sdk-web-1252463788.cos.ap-hongkong.myqcloud.com/component/TUIKit/assets/avatar_21.png':item.avatar}}"></image>
           <view class="chat-content-list-content " bindlongtap="delMsg" data-index="{{index}}">
             <!--  文字信息模板  ↓ hidden="{{!(item.msg_type === 'text')}}" -->
             <view class="chat-content-list-msg" hidden="{{!(item.type === 'TIMTextElem')}}">
-              <text selectable='true'>{{item.payload.text}}</text>
-              <view class='over-read-tip '></view>
+              <view class="text-msg-wrapper" wx:for="{{item.renderDom}}" wx:for-item="render">
+                <text wx:if="{{render.name==='span'}}" selectable='true'>{{render.text}}</text>
+                <image wx:if="{{render.name === 'img'}}" class="emoji-icon" src="{{render.src}}" />
+                <!-- <view class='over-read-tip '></view> -->
+              </view>
             </view>
 
             <!--  语音信息模板  ↓   hidden="{{!(item.msg_type === 'voice')}}" -->
-            <view class="chat-content-list-voice {{item.payload.second<5?'length1':'length2'}}" bindtap='playRecord' hidden="{{!(item.type === 'TIMSoundElem')}}">
+            <!-- <view class="chat-content-list-voice {{item.payload.second<5?'length1':'length2'}}" bindtap='playRecord' hidden="{{!(item.type === 'TIMSoundElem')}}">
               <text class=''>{{item.payload.second}}s</text>
               <SoundIcon />
               <view class='over-read-tip '></view>
-            </view>
+            </view> -->
 
             <!--  图片信息模板  ↓   -->
             <view class="chat-content-list-img" hidden="{{!(item.type === 'TIMImageElem')}}">

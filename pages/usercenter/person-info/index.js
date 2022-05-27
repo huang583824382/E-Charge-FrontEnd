@@ -51,6 +51,11 @@ Page({
       case 'avatarUrl':
         this.toModifyAvatar();
         break;
+      case 'phoneNumber':
+        wx.navigateTo({
+          url: `/pages/usercenter/phone-edit/index?phone=${this.data.personInfo.phoneNumber}`,
+        });
+        break
       default: {
         break;
       }
@@ -62,6 +67,8 @@ Page({
     });
   },
   onConfirm(e) {
+    let app = getApp()
+    let that = this
     const {
       value
     } = e.detail;
@@ -76,10 +83,33 @@ Page({
           message: '设置成功',
           theme: 'success',
         });
+        console.log(value)
+        wx.request({
+          url: app.globalData.URL + '/user/editGender',
+          method: 'POST',
+          header: {
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          data: {
+            'token': app.globalData.session_key,
+            'gender': value
+          },
+          success: function (res) {
+            console.log(res)
+            Toast({
+              context: that,
+              selector: '#t-toast',
+              message: '设置成功',
+              theme: 'success',
+            });
+          }
+        })
       },
     );
   },
   async toModifyAvatar() {
+    let that = this
+    let app = getApp()
     try {
       const tempFilePath = await new Promise((resolve, reject) => {
         wx.chooseImage({
@@ -104,12 +134,31 @@ Page({
       });
       const tempUrlArr = tempFilePath.split('/');
       const tempFileName = tempUrlArr[tempUrlArr.length - 1];
-      Toast({
-        context: this,
-        selector: '#t-toast',
-        message: `已选择图片-${tempFileName}`,
-        theme: 'success',
+
+      wx.uploadFile({
+        url: app.globalData.URL + '/user/editAvatar',
+        filePath: tempFilePath,
+        name: 'img',
+        formData: {
+          token: app.globalData.session_key,
+        },
+        success: (res) => {
+          if (res.data.code == 'success') {
+            Toast({
+              context: this,
+              selector: '#t-toast',
+              message: '设置成功',
+              theme: 'success',
+            });
+            this.init()
+          }
+        },
+        fail: (res) => {
+          console.log(res);
+          return;
+        }
       });
+
     } catch (error) {
       if (error.errMsg === 'chooseImage:fail cancel') return;
       Toast({
@@ -120,7 +169,7 @@ Page({
       });
     }
   },
-  onShow: function () {
+  init() {
     var that = this;
     const app = getApp();
     console.log("get user info", app.globalData.uid)
@@ -148,5 +197,8 @@ Page({
         });
       }
     })
+  },
+  onShow: function () {
+    this.init()
   },
 });

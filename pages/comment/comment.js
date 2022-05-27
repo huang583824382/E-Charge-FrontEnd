@@ -1,11 +1,23 @@
 // pages/comment.js
+import Toast from 'tdesign-miniprogram/toast/index';
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    transactionID: "",
+    commodityID: 0,
+    coverUrl: "",
+    place: "",
+    sellerID: 0,
+    state: 1,
+    timeExcepted: "",
+    title: "",
+    transTime: "",
+    type: 0,
+    rateValue: 5,
+    commentDone: false
   },
 
   /**
@@ -16,6 +28,61 @@ Page({
       title: '评价',
     })
     let transactionID = parseInt(options.transactionID)
+    this.setData({
+      transactionID: transactionID,
+    })
+    this.loadTrans()
+  },
+
+  loadTrans() {
+    let app = getApp()
+    let that = this
+    wx.request({
+      url: app.globalData.URL + '/trans/detail',
+      method: "POST",
+      timeout: 500,
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        token: app.globalData.session_key,
+        transactionID: this.data.transactionID
+      },
+      success: (res) => {
+        console.log("loadTrans", res.data)
+        that.setData(res.data)
+        console.log("loadTrans done", that.data)
+      }
+
+    })
+  },
+  changeValue(e) {
+    this.setData({
+      rateValue: e.detail.value
+    })
+  },
+  commit() {
+    let app = getApp()
+    let that = this
+    console.log("commit", this.data.rateValue)
+    wx.request({
+      method: "POST",
+      header: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      url: app.globalData.URL + "/trans/rate",
+      data: {
+        token: app.globalData.session_key,
+        transId: that.data.transactionID,
+        rate: that.data.rateValue
+      },
+      success: (res) => {
+        if (res.data.code == 'success') {
+          wx.navigateBack()
+        }
+      }
+
+    })
   },
 
   /**

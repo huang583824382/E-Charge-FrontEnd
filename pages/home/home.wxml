@@ -39,5 +39,5 @@
   <!-- <view class="float-button">
     <t-icon class="float-button-icon" name="chat" bind:click="handleClick" />
   </view> -->
-  <fab iconName="chat" bind:FabClick="enterChatRoom"></fab>
+  <fab unread="{{unreadNum}}" iconName="chat" bind:FabClick="enterChatRoom"></fab>
 </view>

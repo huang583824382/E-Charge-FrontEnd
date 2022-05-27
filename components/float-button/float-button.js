@@ -7,6 +7,10 @@ Component({
     iconName: {
       type: String,
       value: ""
+    },
+    unread: {
+      type: String,
+      value: "2"
     }
   },
 
@@ -16,6 +20,7 @@ Component({
   data: {
 
   },
+
 
   /**
    * 组件的方法列表

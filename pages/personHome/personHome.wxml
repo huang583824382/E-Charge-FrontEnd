@@ -1,0 +1,29 @@
+<!--pages/personHome/personHome.wxml-->
+<view class="user-center-card">
+  <view class="user-center-card__header">
+    <t-avatar t-class="avatar" mode="aspectFill" class="user-center-card__header__avatar" image="{{userInfo.avatarUrl || defaultAvatarUrl}}" />
+    <view class="user-center-card__header__name">{{userInfo.nickName}}</view>
+  </view>
+  <view class="button-wrapper">
+    <view class="button-style" bindtap="startChat">
+      <t-icon name="call" size="50rpx"/>
+      聊天
+    </view>
+    <view class="button-style" bindtap="startReport">
+      <t-icon name="error-circle" size="50rpx" />
+      举报
+    </view>
+  </view>
+</view>
+<view class="goods-place">
+  <t-tabs t-class="t-tabs" t-class-active="t-class-item" t-class-track="t-class-track" defaultValue="{{0}}" bind:change="tabChangeHandle">
+    <t-tab-panel value="{{0}}" label="ta的出售">
+      <goods-list wr-class="goods-list-container" goodsList="{{list[0]}}" bind:click="listClickHandle" bind:addcart="goodListAddCartHandle" />
+    </t-tab-panel>
+    <t-tab-panel value="{{1}}" label="ta的求助">
+      <tasks-list wr-class="tasks-list-container" tasksList="{{list[1]}}" bind:click="listClickHandle" bind:addcart=taskListAddCartHandle" />
+    </t-tab-panel>
+  </t-tabs>
+  <!-- <load-more list-is-empty="{{!list[tabIndex].length}}" status="{{listLoadStatus[tabIndex]}}" bind:retry="onReTry" /> -->
+  <t-toast id="home-t-toast" />
+</view>

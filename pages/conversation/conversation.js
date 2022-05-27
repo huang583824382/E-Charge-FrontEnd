@@ -58,13 +58,14 @@ Page({
     // wx.navigateTo({
     //   url,
     // });
-    console.log(this.data.conversationList)
+    // console.log(this.data.conversationList)
     wx.navigateTo({
       url: '/pages/chat/chat?conversationID=' + this.data.conversationList[event.currentTarget.dataset.index].conversationID
     })
   },
   // 更新会话列表
   onConversationListUpdated(event) {
+    console.log("onConversationListUpdated", event)
     this.setData({
       conversationList: event.data,
     });

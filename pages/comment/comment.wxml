@@ -1,9 +1,11 @@
 <!--pages/comment.wxml-->
 <view class="comment-container">
   <view class="trans-info-container">
-    <t-image t-class="image-style" src="https://sdk-web-1252463788.cos.ap-hongkong.myqcloud.com/component/TUIKit/assets/avatar_21.png" mode="aspectFill"></t-image>
+    <view wx:if="{{coverUrl==''}}" class="task-label">任务/求购</view>
+    <t-image wx:if="{{coverUrl!=''}}" t-class="image-style" src="{{coverUrl}}" mode="aspectFill"></t-image>
+
     <view class="title-wrapper">
-      商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商题商品标题商品标题商
+      {{title}}
     </view>
   </view>
 
@@ -11,11 +13,11 @@
     <view style="padding: 20rpx;">
       请对交易评分:
     </view>
-    <t-rate defaultValue="{{value}}" variant="outline" bind:change="changeValue" allowHalf size="{{60}}">
+    <t-rate defaultValue="{{5}}" variant="outline" bind:change="changeValue" allowHalf size="{{60}}">
     </t-rate>
   </view>
   <view class="button-container">
-    <t-button icon="check" theme="primary" size="large" shape="round">
+    <t-button icon="check" theme="primary" size="large" shape="round" bindtap="commit">
       提交评分
     </t-button>
   </view>

@@ -60,6 +60,15 @@ scroll-view {
   color: #fff;
 }
 
+.text-msg-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  word-break: break-all;
+}
+
 .chat-content-list-voice {
   padding: 0 0 0 40rpx;
   box-sizing: border-box;
@@ -151,6 +160,11 @@ scroll-view {
   word-wrap: break-word;
   font-size: 32rpx;
   font-weight: 400;
+  display: flex;
+  flex-direction: row;
+  /*justify-content: flex-start;*/
+  flex-wrap: wrap;
+  outline: none;
 }
 
 .chat-content-list.right .chat-content-list-msg {
@@ -281,6 +295,7 @@ scroll-view {
 }
 
 .message-input {
+  display: inline;
   width: 100%;
 }
 
@@ -297,6 +312,11 @@ scroll-view {
 
 .chat-content-list.right .chat-content-list-msg-del {
   left: -10rpx;
+}
+
+.emoji-icon {
+  width: 20px;
+  height: 20px;
 }
 
 .over-read-tip {

@@ -50,10 +50,12 @@ Page({
       if (app.globalData.uid != null) {
         this.IMlogin(); //登录IM
 
-        wx.tim.on(wx.TIM.EVENT.SDK_READY, wx.switchTab({
-          // to home
-          url: '/pages/home/home'
-        }))
+        wx.tim.on(wx.TIM.EVENT.SDK_READY, () => {
+          wx.switchTab({
+            // to home
+            url: '/pages/home/home'
+          })
+        })
       }
       // 未注册用户，留在注册页面
     })

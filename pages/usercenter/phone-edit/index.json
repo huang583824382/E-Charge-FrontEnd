@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "昵称",
+  "navigationBarTitleText": "修改电话",
   "usingComponents": {
     "t-input": "tdesign-miniprogram/input/input",
     "t-icon": "tdesign-miniprogram/icon/icon",

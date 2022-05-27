@@ -3,6 +3,9 @@
 // let chatInput = require('./chat-input/chat-input');
 var utils = require("../../utils/util")
 import dayjs from './dayjs'
+import {
+  parseText
+} from './message-facade'
 Page({
 
   /**
@@ -96,15 +99,17 @@ Page({
     }
   },
   sendMessage(e) {
-    var message = e.detail.message
-    console.log(e, "send")
-    this.messageTimeForShow(message);
-    message.isSelf = true;
-    this.data.messageList.push(message);
-    this.setData({
-      messageList: this.data.messageList,
-      desMessage: 'ID' + this.data.messageList[this.data.messageList.length - 1].ID,
-    });
+    // var message = e.detail.message
+    // console.log(e, "send")
+    // this.messageTimeForShow(message);
+    // message.isSelf = true;
+    // this.data.messageList.push(message);
+    // this.setData({
+    //   messageList: this.data.messageList,
+    //   desMessage: 'ID' + this.data.messageList[this.data.messageList.length - 1].ID,
+    // });
+
+    this.freshMessageList()
   },
   freshMessageList() {
     let that = this
@@ -116,19 +121,22 @@ Page({
       console.log('get response', imResponse)
       // console.log('ID ', 'ID' + imResponse.data.messageList[imResponse.data.messageList.length - 1].ID)
       if (imResponse.data.messageList.length > 0) {
+        that.readMessage()
         that.setData({
           messageList: imResponse.data.messageList, // 消息列表。
           nextReqMessageID: imResponse.data.nextReqMessageID, // 用于续拉，分页续拉时需传入该字段。
           isCompleted: imResponse.data.isCompleted, // 表示是否已经拉完所有消息。
-          desMessage: 'ID' + imResponse.data.messageList[imResponse.data.messageList.length - 1].ID
         })
         this.updateShowTime()
+        this.addEmoji()
       } else {
         that.setData({
           messageList: imResponse.data.messageList, // 消息列表。
         })
       }
-
+      that.setData({
+        desMessage: 'ID' + imResponse.data.messageList[imResponse.data.messageList.length - 1].ID
+      })
 
       // this.messageTimeForShow(this.data.messageList[0])
       // that.setData({
@@ -136,7 +144,19 @@ Page({
       // }, () => {})
     });
   },
-
+  addEmoji() {
+    for (let i = this.data.messageList.length - 1; i >= 0; i--) {
+      if (this.data.messageList[i].type == 'TIMTextElem') {
+        var tmp = parseText(this.data.messageList[i])
+        console.log(tmp)
+        this.data.messageList[i].renderDom = tmp
+      }
+    }
+    this.setData({
+      messageList: this.data.messageList
+    })
+    console.log(this.data)
+  },
   // {
   //     dataTime: '',//当前时间
   //     msgType: '',//发送消息类型
@@ -166,6 +186,27 @@ Page({
     })
     wx.tim.on(wx.TIM.EVENT.MESSAGE_RECEIVED, this.freshMessageList)
   },
+  enterPersonPage() {
+    console.log("enterPersonPage", this.data.conversationID)
+    var uid = this.data.conversationID
+    uid = uid.substring(3)
+    wx.navigateTo({
+      url: `/pages/personHome/personHome?uid=${uid}`,
+    })
+
+  },
+
+  readMessage() {
+    let that = this
+    wx.tim.setMessageRead({
+      conversationID: that.data.conversationID
+    }).then(function (imResponse) {
+      // 已读上报成功，指定 ID 的会话的 unreadCount 属性值被置为0
+    }).catch(function (imError) {
+      // 已读上报失败
+      console.warn('setMessageRead error:', imError);
+    });
+  },
 
   onShow: function () {
     let that = this
@@ -178,14 +219,7 @@ Page({
       that.setData({
         conversation: imResponse.data.conversation
       })
-      wx.tim.setMessageRead({
-        conversationID: that.data.conversationID
-      }).then(function (imResponse) {
-        // 已读上报成功，指定 ID 的会话的 unreadCount 属性值被置为0
-      }).catch(function (imError) {
-        // 已读上报失败
-        console.warn('setMessageRead error:', imError);
-      });
+      this.readMessage()
     }).catch(function (imError) {
       console.warn('getConversationProfile error:', imError); // 获取会话资料失败的相关信息
     });

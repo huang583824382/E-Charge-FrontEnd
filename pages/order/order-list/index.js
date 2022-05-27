@@ -283,7 +283,7 @@ Page({
             this.data.orderList[i].btn2 = '取消订单'
             break
           case 2:
-            this.data.orderList[i].btn1 = '收货'
+            this.data.orderList[i].btn1 = '确认收货'
             this.data.orderList[i].btn2 = '退款'
             break
           case 3:
@@ -383,7 +383,8 @@ Page({
               message: "收货成功",
               theme: 'success',
             });
-            wx.navigateBack()
+            // wx.navigateBack()
+            that.onReTryLoad()
           } else {
             Toast({
               context: this,
@@ -393,6 +394,10 @@ Page({
             });
           }
         }
+      })
+    } else if (e.currentTarget.dataset.order.state == 3) {
+      wx.navigateTo({
+        url: `/pages/comment/comment?transactionID=${e.currentTarget.dataset.order.transaction_id}`,
       })
     }
   },
@@ -421,7 +426,8 @@ Page({
               message: "退款成功",
               theme: 'success',
             });
-            wx.navigateBack()
+            // wx.navigateBack()
+            that.onReTryLoad()
           } else {
             Toast({
               context: this,
@@ -440,14 +446,11 @@ Page({
       wx.navigateTo({
         url: `/pages/payment/payment?transactionID=${e.currentTarget.dataset.order.transaction_id}`,
       })
-    } else if (e.currentTarget.dataset.order.state == 3) {
-      wx.navigateTo({
-        url: `/pages/comment/comment?transactionID=${e.currentTarget.dataset.order.transaction_id}`,
-      })
     }
+  }
 
-    // wx.navigateTo({
-    //   url: `/pages/order/order-detail/index?orderNo=${order.orderNo}`,
-    // });
-  },
+  // wx.navigateTo({
+  //   url: `/pages/order/order-detail/index?orderNo=${order.orderNo}`,
+  // });
+
 });

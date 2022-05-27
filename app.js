@@ -25,15 +25,15 @@ App({
     wx.tim.setLogLevel(1); // release级别，SDK 输出关键信息，生产环境时建议使用
 
     // 注册 COS SDK 插件
-    wx.tim.registerPlugin({
-      'tim-upload-plugin': TIMUploadPlugin
-    });
+    // wx.tim.registerPlugin({
+    //   'tim-upload-plugin': TIMUploadPlugin
+    // });
     wx.tim.on(wx.TIM.EVENT.SDK_NOT_READY, this.onSdkNotReady)
     wx.tim.on(wx.TIM.EVENT.KICKED_OUT, this.onKickedOut)
     wx.tim.on(wx.TIM.EVENT.ERROR, this.onTIMError)
     wx.tim.on(wx.TIM.EVENT.NET_STATE_CHANGE, this.onNetStateChange)
     wx.tim.on(wx.TIM.EVENT.SDK_RELOAD, this.onSDKReload)
-    wx.tim.on(wx.TIM.EVENT.SDK_READY, this.onSDKReady)
+    // wx.tim.on(wx.TIM.EVENT.SDK_READY, this.onSDKReady)
   },
   onShow: function () {
     updateManager();
@@ -71,18 +71,18 @@ App({
     })
 
   },
-  refreshSession() {
+  refreshSession(e) {
     var that = this;
     setInterval(that.getSession, 20 * 60 * 1000);
   },
-  onSDKReady() {
+  onSDKReady: function (e) {
     console.log("sdk ready")
   },
-  onSdkNotReady() {
+  onSdkNotReady: function (e) {
 
   },
 
-  onKickedOut() {
+  onKickedOut: function (e) {
     wx.showToast({
       title: '您被踢下线',
       icon: 'error',
@@ -92,13 +92,13 @@ App({
     })
   },
 
-  onTIMError() {},
+  onTIMError: function (e) {},
 
-  onNetStateChange() {
+  onNetStateChange: function (e) {
 
   },
 
-  onSDKReload() {
+  onSDKReload: function (e) {
 
   },
 });

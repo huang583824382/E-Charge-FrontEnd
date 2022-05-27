@@ -79,4 +79,4 @@
 <!-- <t-picker title="请选择类型" bindchange="onPickerChange" bindconfirm="onPicker1Confirm" bindcancel="onPicker1Cancel">
   <t-picker-column options="{{label}}" value="{{selectedLabelValue}}"></t-picker-column>
 </t-picker> -->
-<fab iconName="chat" bind:FabClick="enterChatRoom"></fab>
+<fab unread="{{unreadNum}}" iconName="chat" bind:FabClick="enterChatRoom"></fab>
