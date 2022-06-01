@@ -199,3 +199,16 @@ page .divider-line {
 .dialog__button-confirm {
   color: #fa4126 !important;
 }
+
+.tags-container {
+  display: flex;
+  background-color: #fff;
+  flex-wrap: wrap;
+}
+
+.publish-tags {
+  margin-right: 6rpx;
+  margin-bottom: 4rpx;
+  padding: 4rpx 8rpx;
+  border-radius: 4rpx;
+}

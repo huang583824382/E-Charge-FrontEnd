@@ -49,6 +49,14 @@ Page({
 
   onShow() {
     this.getTabBar().init();
+    this.setData({
+      pageLoading: true,
+    });
+    this.loadGoodsList(true).then(() => {
+      this.setData({
+        pageLoading: false
+      })
+    });
   },
 
   onLoad() {

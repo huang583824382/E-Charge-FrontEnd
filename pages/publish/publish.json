@@ -15,6 +15,7 @@
     "t-switch": "tdesign-miniprogram/switch/switch",
     "t-location": "/pages/usercenter/components/t-location/index",
     "t-upload": "tdesign-miniprogram/upload/upload",
+    "t-tag": "tdesign-miniprogram/tag/tag",
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
     "t-tab-panel": "tdesign-miniprogram/tabs/tab-panel",
     "t-picker": "tdesign-miniprogram/picker/picker",

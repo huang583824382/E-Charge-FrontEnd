@@ -2,11 +2,16 @@
   <view class="divider-line" />
   <view class="divider-line" />
   <view class="divider-line" />
+  <view wx:if="{{isUser}}">
+    <view wx:for="{{20}}">
+      <view class="divider-line" />
+    </view>
+  </view>
 
-  <view class="card-wrapper">
+  <view class="{{isUser? '': card-wrapper}}">
     <!-- 用户信息 -->
     <view wx:if="{{isUser}}" class="goods-card-container">
-      <t-user-center-card userInfo="{{userInfo}}" isPhoneHide="{{true}}" name-class="custom-name-class" phone-class="custom-phone-class" avatar-class="custome-avatar-class" currAuthStep="{{3}}" />
+      <t-user-center-card userInfo="{{userInfo}}" isPhoneHide="{{true}}" name-class="custom-name-class" phone-class="custom-phone-class" avatar-class="custome-avatar-class" currAuthStep="{{currAuthStep}}" />
     </view>
     <!-- 发布项信息 -->
     <view wx:if="{{!isUser}}" class="goods-card-container">
@@ -43,6 +48,9 @@
         <t-upload mediaType="{{['video','image']}}" files="{{imageFiles}}" bind:remove="handleRemove_goods" bind:success="handleSuccess_goods" gridConfig="{{gridConfig}}">
           <t-icon slot="addContent" name="add" size="40rpx" color="rgba(0,0,0,0.26)" />
         </t-upload>
+      </view>
+      <view style="padding: 10rpx; margin-left: 20px;">
+        可以不附加图片
       </view>
     </form>
   </view>

@@ -1,6 +1,7 @@
 Page({
   data: {
     userInfo: null,
+    currAuthStep: 3,
     isUser: false,
     type: 0,
     itemInfo: null,
@@ -35,12 +36,17 @@ Page({
         success: (res) => {
           console.log(res);
           if (res.statusCode == 200) {
-            if (res.data.userInfo) {
-              var user = res.data.userInfo;
-              user.avatarUrl = user.iconUrl;
+            if (res.data != null) {
+              var user = {
+                nickName: res.data.name,
+                avatarUrl: res.data.iconUrl,
+                gender: res.data.gender,
+                phone: res.data.phone,
+              };
               this.setData({
                 userInfo: user
               });
+              console.log(this.data.userInfo);
             }
           } else {
 

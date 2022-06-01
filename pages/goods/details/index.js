@@ -116,8 +116,57 @@ Page({
     });
   },
 
-  buyItNow() {
-    this.showSkuSelectPopup(1);
+  buyItNow(e) {
+    // buy
+    if (this.data.buttonType === 1 || this.data.buttonType === 2) {
+      this.showSkuSelectPopup(1);
+    }
+    // delete
+    else if (this.data.buttonType === 3) {
+      Dialog.confirm({
+        title: '确认删除',
+        content: '您确认要删除该发布项吗',
+        confirmBtn: '确认',
+        cancelBtn: '取消',
+      }).then(() => {
+        console.log(e);
+        var url = getApp().globalData.URL + "/commodity/delete";
+        console.log(url);
+        wx.request({
+          url: url,
+          method: "POST",
+          header: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          data: {
+            token: getApp().globalData.session_key, // token
+            itemId: this.data.itemInfo.itemId // item id
+          },
+          success: (res) => {
+            if (res.statusCode === 200) {
+              console.log(res);
+              if (res.data.code === "fail") {
+                this.showInfo(false, '出错了，请稍后重试');
+              } else if (res.data.code === "no right") {
+                this.showInfo(false, '您没有删除该发布项的权限');
+              } else {
+                this.showInfo(true, '成功删除该发布项');
+                // 回到主页
+                wx.switchTab({
+                  url: '/pages/home/home',
+                });
+              }
+            } else {
+              this.showInfo(false, '出错了，请稍后重试');
+            }
+          },
+          fail: (res) => {
+            console.log(res);
+            this.showInfo(false, '出错了，请稍后重试');
+          }
+        });
+      })
+    }
   },
 
   // 前往会话界面
@@ -125,8 +174,11 @@ Page({
     if (this.data.buttonType === 1 || this.data.buttonType === 2) {
       const conversationId = 'C2C' + this.data.itemInfo.pubId.toString();
       console.log(conversationId);
+      // wx.navigateTo({
+      //   url: `/pages/chat/chat?conversationID=${conversationId}`,
+      // })
       wx.navigateTo({
-        url: `/pages/chat/chat?conversationID=${conversationId}`,
+        url: `/pages/personHome/personHome?uid=${this.data.itemInfo.pubId}`,
       })
     } else if (this.data.buttonType === 3) {
       wx.switchTab({
@@ -280,6 +332,7 @@ Page({
       selector: '#t-toast',
       message: msg,
       theme: suc ? 'success' : 'fail',
+      timeout: 500,
     });
   },
 
@@ -296,65 +349,66 @@ Page({
     //   });
     //   return;
     // }
-
-    // 询问是否需要
-    Dialog.confirm({
-      title: this.data.itemInfo.type === 0 ? '确认购买' : '确认领取',
-      content: this.data.itemInfo.type === 0 ? '您确认要购买该商品吗?' : '您确认要领取该任务吗',
-      confirmBtn: '确认',
-      cancelBtn: '取消',
-    }).then(() => {
-      // 确认，发送请求，生成订单
-      var url = getApp().globalData.URL + "/trans/buy";
-      console.log(url);
-      wx.request({
-        url: url,
-        method: "POST",
-        header: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        data: {
-          token: getApp().globalData.session_key, // token
-          itemId: this.data.spuId // item id
-        },
-        success: (res) => {
-          if (res.statusCode === 200) {
-            console.log(res);
-            if (res.data.code === "fail") {
-              this.showInfo(false, '出错了，请稍后重试');
-            } else if (res.data.code === "has been bought") {
-              this.showInfo(false, '出手慢了，该商品已被购买');
-            } else {
-              var info = this.data.itemInfo.type === 0 ? '成功下单，即将前往支付界面' : '成功领取任务，即将前往首页';
-              this.showInfo(true, info);
-              // 隐藏弹窗
-              this.handlePopupHide();
-              if (this.data.itemInfo.type === 1) {
-                // 回到主页
-                wx.switchTab({
-                  url: '/pages/home/home',
-                });
+    if (this.data.buttonType === 1 || this.data.buttonType === 2) {
+      // 询问是否需要
+      Dialog.confirm({
+        title: this.data.itemInfo.type === 0 ? '确认购买' : '确认领取',
+        content: this.data.itemInfo.type === 0 ? '您确认要购买该商品吗?' : '您确认要领取该任务吗',
+        confirmBtn: '确认',
+        cancelBtn: '取消',
+      }).then(() => {
+        // 确认，发送请求，生成订单
+        var url = getApp().globalData.URL + "/trans/buy";
+        console.log(url);
+        wx.request({
+          url: url,
+          method: "POST",
+          header: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          data: {
+            token: getApp().globalData.session_key, // token
+            itemId: this.data.spuId // item id
+          },
+          success: (res) => {
+            if (res.statusCode === 200) {
+              console.log(res);
+              if (res.data.code === "fail") {
+                this.showInfo(false, '出错了，请稍后重试');
+              } else if (res.data.code === "has been bought") {
+                this.showInfo(false, '出手慢了，该商品已被购买');
               } else {
-                wx.navigateTo({
-                  url: `/pages/payment/payment?transactionID=${res.data.transId}`,
-                })
+                var info = this.data.itemInfo.type === 0 ? '成功下单，即将前往支付界面' : '成功领取任务，即将前往首页';
+                this.showInfo(true, info);
+                // 隐藏弹窗
+                this.handlePopupHide();
+                if (this.data.itemInfo.type === 1) {
+                  // 回到主页
+                  wx.switchTab({
+                    url: '/pages/home/home',
+                  });
+                } else {
+                  wx.navigateTo({
+                    url: `/pages/payment/payment?transactionID=${res.data.transId}`,
+                  })
+                }
+                // wx.navigateTo({
+                //   url: '/pages/home/home',
+                // });
               }
-              // wx.navigateTo({
-              //   url: '/pages/home/home',
-              // });
+            } else {
+              this.showInfo(false, '出错了，请稍后重试');
             }
-          } else {
+          },
+          fail: (res) => {
+            console.log(res);
             this.showInfo(false, '出错了，请稍后重试');
           }
-        },
-        fail: (res) => {
-          console.log(res);
-          this.showInfo(false, '出错了，请稍后重试');
-        }
+        });
+
+
       });
-
-
-    });
+    }
 
     // const query = {
     //   quantity: buyNum,
@@ -577,6 +631,7 @@ Page({
               images = item.figureUrls.split(";");
             }
             item.images = images;
+            item.tags = (item.tags == '' ? [] : item.tags.split(';'));
             this.setData({
               itemInfo: item,
               soldout: item.state === 3,

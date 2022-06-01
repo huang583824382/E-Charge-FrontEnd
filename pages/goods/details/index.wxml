@@ -14,16 +14,16 @@
         </view>
         <!-- <view class="sold-num">已售{{soldNum}}</view> -->
       </view>
-      <view wx:if="{{activityList.length > 0}}" class="goods-activity" bindtap="showPromotionPopup">
+      <view wx:if="{{itemInfo.tags.length > 0}}" class="goods-activity">
         <view class="tags-container">
-          <view wx:for="{{activityList}}" data-promotionId="{{item.promotionId}}" wx:key="index" wx:if="{{index<4}}">
-            <view class="goods-activity-tag">{{item.tag}}</view>
+          <view wx:for="{{itemInfo.tags}}" wx:key="index">
+            <t-tag class="goods-activity-tag" theme="danger" variant="outline">{{itemInfo.tags[index]}}</t-tag>
           </view>
         </view>
-        <view class="activity-show">
+        <!-- <view class="activity-show">
           <view class="activity-show-text">领劵</view>
           <t-icon name="chevron-right" size="42rpx" />
-        </view>
+        </view> -->
       </view>
       <view class="goods-title">
         <view class="goods-name">{{itemInfo.title}}</view>
@@ -91,7 +91,7 @@
     <buy-bar jumpArray="{{jumpArray}}" soldout="{{soldout}}" isStock="{{isStock}}" shopCartNum="{{cartNum}}" buttonType="{{buttonType}}" bind:toAddCart="toAddCart" bind:toNav="toNav" bind:toBuyNow="buyItNow" class="goods-details-card" />
   </view>
   <goods-specs-popup id="goodsSpecsPopup" show="{{isSpuSelectPopupShow}}" title="{{itemInfo.title || ''}}" src="{{itemInfo.images[0]}}" specList="{{[]}}" skuList="{{[]}}" limitBuyInfo="{{''}}" bind:closeSpecsPopup="handlePopupHide" bind:change="chooseSpecItem" bind:changeNum="changeNum" bind:addCart="addCart" bind:buyNow="gotoBuy" bind:specsConfirm="specsConfirm" isStock="{{isStock}}" outOperateStatus="{{outOperateStatus}}">
-    <view slot="goods-price"> 
+    <view slot="goods-price">
       <view class="popup-sku__price">
         <price price="{{itemInfo.price}}" wr-class="popup-sku__price-num" symbol-class="popup-sku__price-symbol" />
         <!-- <price wx:if="{{!isAllSelectedSku || (!promotionSubCode && isAllSelectedSku)}}" price="{{selectSkuSellsPrice ? selectSkuSellsPrice : minSalePrice }}" wr-class="popup-sku__price-num" symbol-class="popup-sku__price-symbol" /> -->
