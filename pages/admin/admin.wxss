@@ -1,1 +1,45 @@
 /* pages/admin/admin.wxss */
+
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.title-style {
+  font-size: 60rpx;
+  font-weight: 700;
+  font-style: oblique;
+}
+
+.admin-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 100vw;
+  height: 800rpx;
+}
+
+.info-block {
+  border-radius: 40rpx;
+  padding: 20rpx;
+  height: 120rpx;
+  width: 500rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  /* background-color: aqua; */
+  /* height: 200rpx; */
+}
+
+.info-title {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}

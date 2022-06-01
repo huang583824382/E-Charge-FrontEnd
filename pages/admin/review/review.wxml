@@ -1,0 +1,38 @@
+<order-card wx:for="{{review}}" wx:key="id" wx:for-item="commodity" wx:for-index="oIndex" order="{{commodity}}" defaultShowNum="{{3}}" useLogoSlot>
+  <view>
+    <view slot="top-left" class="order-date">
+      <text decode>日期 {{commodity.deal_time}};</text>
+    </view>
+    <view class="goods-card-container" data-commodity="{{commodity}}" bindtap="onOrderCardTap">
+      <view wx:if="{{commodity.figure_url!=''}}" class="goods-card-image">
+        <t-image t-class="image-style" src="{{commodity.figure_url}}" mode="aspectFill"></t-image>
+      </view>
+      <view class="goods-card-content">
+        <view class="goods-card-title">
+          <t-icon wx:if="{{commodity.figure_url==''}}" name="pin"></t-icon>
+          <view>
+            {{commodity.title}}
+          </view>
+        </view>
+        <view class="goods-card-price">
+          ￥{{commodity.price}}
+        </view>
+      </view>
+    </view>
+    <!-- <specs-goods-card wx:for="{{commodity.goodsList}}" wx:key="id" wx:for-item="goods" wx:for-index="gIndex" data="{{goods}}" no-top-line="{{gIndex === 0}}" wx:if="{{gIndex === 0}}" /> -->
+    <view slot="more">
+      <view class="order-btn-container">
+        <btn class="order-btn-1" bindtap="btn1Tap" data-commodity="{{commodity}}">
+          通过
+        </btn>
+        <btn class="order-btn-2" bindtap="btn2Tap" data-commodity="{{commodity}}">
+          不通过
+        </btn>
+        <!-- <t-button size="small" theme="primary" class="commodity-btn-1">付款</t-button>
+          <t-button class="commodity-btn-2">取消</t-button> -->
+      </view>
+      <!-- <order-button-bar commodity="{{commodity}}" bindrefresh="onRefresh" data-commodity="{{commodity}}" /> -->
+    </view>
+  </view>
+
+</order-card>

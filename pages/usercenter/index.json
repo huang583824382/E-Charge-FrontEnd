@@ -9,6 +9,7 @@
     "t-user-center-card": "./components/user-center-card/index",
     "t-order-group": "./components/order-group/index",
     "t-pub-group": "./components/pub-group/index",
+    "t-button": "tdesign-miniprogram/button/button",
     "t-toast": "tdesign-miniprogram/toast/toast"
   },
   "enablePullDownRefresh": true

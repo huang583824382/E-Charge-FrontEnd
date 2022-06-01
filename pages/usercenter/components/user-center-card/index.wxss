@@ -9,6 +9,7 @@
   background-repeat: no-repeat;
   padding: 0 24rpx;
 }
+
 .user-center-card__header {
   margin-top: 192rpx;
   margin-bottom: 48rpx;
@@ -20,6 +21,7 @@
   color: #333;
   position: relative;
 }
+
 .user-center-card__header__avatar {
   width: 96rpx;
   height: 96rpx;
@@ -35,6 +37,7 @@
   margin-left: 24rpx;
   margin-right: 16rpx;
 }
+
 .user-center-card__header__transparent {
   position: absolute;
   left: 0;
@@ -43,6 +46,7 @@
   height: 100%;
   width: 100%;
 }
+
 .user-center-card__icon {
   line-height: 96rpx;
 }

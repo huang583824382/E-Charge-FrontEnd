@@ -33,7 +33,10 @@
     "pages/payment/payment",
     "pages/report/report",
     "pages/personHome/personHome",
-    "pages/admin/admin"
+    "pages/admin/admin",
+    "pages/admin/review/review",
+    "pages/admin/report/report",
+    "pages/admin/report/report-detail/report-detail"
   ],
   "tabBar": {
     "custom": true,

@@ -1,4 +1,23 @@
 <!--pages/admin/admin.wxml-->
-<text>
+<view class="admin-page">
+  <title class="title-style">管理员界面</title>
+  <view class="admin-info">
+    <view class="info-block" style="background-color: rgb(255, 148, 106);" bindtap="getReview">
+      <view class="tool-title">上架审核</view>
+      <view class="info-title">{{toReview}}</view>
+    </view>
+    <view class="info-block" style="background-color: rgb(197, 255, 103);" bindtap="getReport">
+      <view>举报处理</view>
+      <view class="info-title">{{toReport}}</view>
+    </view>
+    <view class="info-block" style="background-color: #5cffc9;">
+      <view>发布公告</view>
+      <view class="info-title"></view>
+    </view>
+    <view class="info-block" style="background-color: rgb(89, 133, 255);">
+      <view>封禁用户</view>
+      <view class="info-title"></view>
+    </view>
+  </view>
 
-</text>
+</view>
