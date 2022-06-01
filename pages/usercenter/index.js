@@ -16,21 +16,7 @@ const menuData = [
       url: '',
       type: 'credit',
     }
-  ],
-  [{
-      title: '帮助中心',
-      tit: '',
-      url: '',
-      type: 'help-center',
-    },
-    {
-      title: '客服热线',
-      tit: '',
-      url: '',
-      type: 'service',
-      icon: 'service',
-    },
-  ],
+  ]
 ];
 
 const orderTagInfos = [{
@@ -130,6 +116,7 @@ Page({
       avatarUrl: '',
       nickName: '正在登录...',
       phoneNumber: '',
+      isadmin: false,
     },
     menuData,
     orderTagInfos: orderTagInfos,
@@ -171,11 +158,13 @@ Page({
         var ret_gender = res.data.gender;
         var ret_phone = res.data.phone;
         var ret_iconUrl = res.data.iconUrl
+        console.log(res.data)
         that.setData({
           'userInfo.nickName': ret_name,
           'userInfo.gender': ret_gender,
           'userInfo.phoneNumber': ret_phone,
           'userInfo.avatarUrl': ret_iconUrl,
+          'userInfo.isadmin': res.data.admin,
           currAuthStep: 3
         });
       }
@@ -349,6 +338,11 @@ Page({
     } = this.data;
     wx.navigateTo({
       url: '/pages/usercenter/person-info/index'
+    });
+  },
+  enterAdmin() {
+    wx.navigateTo({
+      url: '/pages/admin/admin'
     });
   },
 

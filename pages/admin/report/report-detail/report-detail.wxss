@@ -1,0 +1,68 @@
+/* pages/admin/report/report-detail/report-detail.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.report-info {
+  width: 100%;
+  height: 500rpx;
+  /* background-color: antiquewhite; */
+}
+
+.image-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100vw;
+  height: 500rpx;
+  /* background-color: antiquewhite; */
+  overflow: scroll;
+}
+
+.button-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100vw;
+  height: 100rpx;
+}
+
+.image-space {
+  height: 200rpx;
+  width: 200rpx;
+  margin: 20rpx;
+}
+
+
+.title {
+  font-size: large;
+  font-weight: 500;
+  padding: 20rpx;
+  height: 85rpx;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  display: -webkit-box;
+  word-break: break-word;
+}
+
+.agree-wrapper {
+  width: 100vw;
+  height: 700rpx;
+  border-top-left-radius: 16rpx;
+  border-top-right-radius: 16rpx;
+  background: #fff;
+  color: #333;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}

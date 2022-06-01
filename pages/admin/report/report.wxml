@@ -1,0 +1,21 @@
+<order-card wx:for="{{review}}" wx:key="id" wx:for-item="report" wx:for-index="oIndex" order="{{report}}" defaultShowNum="{{3}}" useLogoSlot>
+  <view>
+    <view slot="top-left" class="order-date">
+      <text decode>{{report.reportTime}};</text>
+    </view>
+    <view class="goods-card-container" data-report="{{report}}" bindtap="onOrderCardTap">
+      <view class="goods-card-content">
+        <view class="goods-card-title">
+          <t-icon name="pin"></t-icon>
+          <view class="title">
+            {{report.reportTitle}}
+          </view>
+        </view>
+        <view class="goods-card-price">
+          详情
+        </view>
+      </view>
+    </view>
+  </view>
+
+</order-card>

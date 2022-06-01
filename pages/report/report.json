@@ -11,6 +11,6 @@
     "t-icon": "tdesign-miniprogram/icon/icon",
     "t-button": "tdesign-miniprogram/button/button",
     "t-image": "tdesign-miniprogram/image/image",
-    "t-user-center-card": "./components/user-center-card/index"
+    "t-user-report-card": "./components/user-report-card/index"
   }
 }

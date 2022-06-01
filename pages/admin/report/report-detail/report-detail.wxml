@@ -1,0 +1,40 @@
+<!--pages/admin/report/report-detail/report-detail.wxml-->
+<view class="container">
+  <!-- <view>
+    举报内容
+  </view> -->
+  <view class="report-info">
+    <view class="title">
+      {{report_title}}
+    </view>
+    <view>
+      <t-cell url="{{'/pages/personHome/personHome?uid='+target_user}}" title="{{target_user_name}}" arrow description="点击进入用户主页" image="{{target_user_avatar}}" />
+      <t-cell url="{{'/pages/goods/details/index?spuId='+target_item}}" title="{{target_item_title}}" arrow description="点击进入商品详情" image="{{target_item_cover}}" />
+    </view>
+  </view>
+  <scroll-view>
+    <view class="image-wrapper" wx:if="{{urls != null}}">
+      <view wx:for="{{urls}}">
+        <t-image data-index="{{index}}" t-class="image-space" src="{{item}}" mode="aspectFill" bindtap="seeBigImg"></t-image>
+      </view>
+    </view>
+  </scroll-view>
+  <view class="button-wrapper">
+    <t-button shape="round" theme="primary" bindtap="reject">驳回举报</t-button>
+    <t-button shape="round" theme="danger" bindtap="agree">处理举报</t-button>
+  </view>
+</view>
+<t-popup z-index="{{5000}}" visible="{{visible}}" placement="bottom" bind:visible-change="visibleChange">
+  <view class="agree-wrapper">
+    <t-radio style="width: 300rpx;" defaultChecked="{{true}}" label="下架商品" bind:change="handleChange" />
+    <t-button theme="danger" bindtap="punish3">
+      扣除3分信誉
+    </t-button>
+    <t-button theme="danger" bindtap="punish1">
+      扣除1分信誉
+    </t-button>
+    <t-button theme="primary" bindtap="punish0">
+      警告处理
+    </t-button>
+  </view>
+</t-popup>

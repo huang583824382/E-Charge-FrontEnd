@@ -1,4 +1,4 @@
-// pages/admin/admin.js
+// pages/admin/review/review.js
 Page({
 
   /**
@@ -13,7 +13,7 @@ Page({
    */
   onLoad(options) {
     wx.setNavigationBarTitle({
-      title: 'Admin Space'
+      title: '举报列表'
     });
   },
 
@@ -21,7 +21,7 @@ Page({
     let app = getApp()
     let that = this
     wx.request({
-      url: app.globalData.URL + '/admin/list',
+      url: app.globalData.URL + '/admin/report',
       method: "POST",
       timeout: 500,
       header: {
@@ -31,23 +31,28 @@ Page({
         "token": app.globalData.session_key,
       },
       success: (res) => {
-        console.log("get admin list", res.data)
-        that.setData(res.data)
+        console.log("get report list", res.data)
+        that.setData({
+          review: res.data.Report,
+        })
+        console.log(that.data)
       }
     })
   },
-
-  getReview() {
+  onOrderCardTap(e) {
+    console.log("enter detail", e)
     wx.navigateTo({
-      url: '/pages/admin/review/review',
-    })
+      url: `/pages/admin/report/report-detail/report-detail?reportId=${e.currentTarget.dataset.report.reportId}`,
+    });
   },
 
-  getReport() {
-    wx.navigateTo({
-      url: '/pages/admin/report/report',
-    })
-  },
+  // btn1Tap() {
+  //   console.log("pass")
+  // },
+
+  // btn2Tap() {
+  //   console.log("no pass")
+  // },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

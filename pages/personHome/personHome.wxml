@@ -3,10 +3,17 @@
   <view class="user-center-card__header">
     <t-avatar t-class="avatar" mode="aspectFill" class="user-center-card__header__avatar" image="{{userInfo.avatarUrl || defaultAvatarUrl}}" />
     <view class="user-center-card__header__name">{{userInfo.nickName}}</view>
+    <view class="credit-wrapper">
+      <view class="credit-title">
+        <t-icon name="secured" size="45rpx" />
+        信誉积分：
+      </view>
+      <view class="credit">{{userInfo.credit}}</view>
+    </view>
   </view>
   <view class="button-wrapper">
     <view class="button-style" bindtap="startChat">
-      <t-icon name="call" size="50rpx"/>
+      <t-icon name="call" size="50rpx" />
       聊天
     </view>
     <view class="button-style" bindtap="startReport">

@@ -67,6 +67,7 @@ Page({
           'userInfo.gender': ret_gender,
           'userInfo.phoneNumber': ret_phone,
           'userInfo.avatarUrl': ret_iconUrl,
+          'userInfo.credit': res.data.credit,
           uid: uid,
           currAuthStep: 3
         });

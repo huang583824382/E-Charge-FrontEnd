@@ -1,0 +1,18 @@
+{
+  "usingComponents": {
+    "t-tabs": "tdesign-miniprogram/tabs/tabs",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-tab-panel": "tdesign-miniprogram/tabs/tab-panel",
+    "t-empty": "tdesign-miniprogram/empty/empty",
+    "t-toast": "tdesign-miniprogram/toast/toast",
+    "t-dialog": "tdesign-miniprogram/dialog/dialog",
+    "t-pull-down-refresh": "tdesign-miniprogram/pull-down-refresh/pull-down-refresh",
+    "load-more": "/components/load-more/index",
+    "order-button-bar": "/pages/order/components/order-button-bar/index",
+    "price": "/components/price/index",
+    "order-card": "/pages/order/components/order-card/index",
+    "specs-goods-card": "/pages/order/components/specs-goods-card/index",
+    "t-image": "/components/webp-image/index",
+    "t-icon": "tdesign-miniprogram/icon/icon"
+  }
+}

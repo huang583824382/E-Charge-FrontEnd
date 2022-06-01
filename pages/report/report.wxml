@@ -6,7 +6,7 @@
   <view class="card-wrapper">
     <!-- 用户信息 -->
     <view wx:if="{{isUser}}" class="goods-card-container">
-      <t-user-center-card userInfo="{{userInfo}}" isPhoneHide="{{true}}" name-class="custom-name-class" phone-class="custom-phone-class" avatar-class="custome-avatar-class" currAuthStep="{{3}}" />
+      <t-user-report-card userInfo="{{userInfo}}" isPhoneHide="{{true}}" name-class="custom-name-class" phone-class="custom-phone-class" avatar-class="custome-avatar-class" currAuthStep="{{3}}" />
     </view>
     <!-- 发布项信息 -->
     <view wx:if="{{!isUser}}" class="goods-card-container">

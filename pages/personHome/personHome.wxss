@@ -4,7 +4,6 @@
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
-  width: 100%;
   height: 200rpx;
   background-image: url('https://cdn-we-retail.ym.tencent.com/miniapp/template/user-center-bg-v1.png');
   background-size: cover;
@@ -44,6 +43,20 @@
   justify-content: space-around;
   align-items: center;
   padding: 30rpx;
+}
+
+.credit-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.credit-title {
+  display: flex;
+  flex-direction: row;
+  font-weight: 500;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .button-style {
