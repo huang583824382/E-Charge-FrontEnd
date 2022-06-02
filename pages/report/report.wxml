@@ -3,7 +3,7 @@
   <view class="divider-line" />
   <view class="divider-line" />
   <view wx:if="{{isUser}}">
-    <view wx:for="{{20}}">
+    <view wx:for="{{20}}" wx:key="index">
       <view class="divider-line" />
     </view>
   </view>
@@ -11,7 +11,7 @@
   <view class="{{isUser? '': card-wrapper}}">
     <!-- 用户信息 -->
     <view wx:if="{{isUser}}" class="goods-card-container">
-      <t-user-center-card userInfo="{{userInfo}}" isPhoneHide="{{true}}" name-class="custom-name-class" phone-class="custom-phone-class" avatar-class="custome-avatar-class" currAuthStep="{{currAuthStep}}" />
+      <t-user-report-card userInfo="{{userInfo}}" isPhoneHide="{{true}}" name-class="custom-name-class" phone-class="custom-phone-class" avatar-class="custome-avatar-class" currAuthStep="{{currAuthStep}}" />
     </view>
     <!-- 发布项信息 -->
     <view wx:if="{{!isUser}}" class="goods-card-container">
@@ -62,3 +62,4 @@
     </t-button>
   </view>
 </view>
+<t-toast id="report-t-toast" />
