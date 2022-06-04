@@ -300,6 +300,10 @@ Page({
     })
     console.log(this.data.reason);
     console.log(this.data.imageFiles);
+    // 返回主页
+    wx.navigateBack({
+      delta: 0,
+    })
   },
 
   checkAndSwitchTab() {

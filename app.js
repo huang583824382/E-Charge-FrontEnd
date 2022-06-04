@@ -25,9 +25,9 @@ App({
     wx.tim.setLogLevel(1); // release级别，SDK 输出关键信息，生产环境时建议使用
 
     // 注册 COS SDK 插件
-    // wx.tim.registerPlugin({
-    //   'tim-upload-plugin': TIMUploadPlugin
-    // });
+    wx.tim.registerPlugin({
+      'tim-upload-plugin': TIMUploadPlugin
+    });
     wx.tim.on(wx.TIM.EVENT.SDK_NOT_READY, this.onSdkNotReady)
     wx.tim.on(wx.TIM.EVENT.KICKED_OUT, this.onKickedOut)
     wx.tim.on(wx.TIM.EVENT.ERROR, this.onTIMError)
