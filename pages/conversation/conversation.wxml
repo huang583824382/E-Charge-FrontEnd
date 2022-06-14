@@ -1,6 +1,4 @@
-<!-- 这里有个加载的补丁逻辑待优化，页面向SDK请求conversationList的时候会有时延，
-造成页面的一个抖动，这里加一个if逻辑打一个补丁，后续继续优化 -->
-<view wx:if="{{!isEmpty}}" class="container">
+<view class="container">
   <view class="conversation-search-bar">
     <t-search model:value="{{value}}" t-class-input="t-search__input" t-class-input-container="t-search__input-container" placeholder="搜索用户昵称或id（新用户只能用id搜索）" rightIcon="close" action="搜索" bind:change="onValueChange" bind:action-click="onClickSearch">
       <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
